@@ -1,0 +1,158 @@
+/* public/css/app.css */
+/* Palet warna: 5 warna total
+   - bg: gelap futuristik
+   - fg: putih netral
+   - muted: abu netral
+   - accent: magenta/ungu cerah
+   - accent-2: hijau cerah
+*/
+:root {
+  --color-bg: #0b0f1a;
+  --color-fg: #f8fafc;
+  --color-muted: #94a3b8;
+  --color-accent: #d946ef; /* magenta/ungu cerah */
+  --color-accent-2: #22c55e; /* hijau cerah */
+  --radius: 0.75rem;
+}
+
+html,
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+.bg-app {
+  background-color: var(--color-bg) !important;
+}
+.text-app {
+  color: var(--color-fg) !important;
+}
+.text-muted {
+  color: var(--color-muted) !important;
+}
+
+/* Komponen utilitas bertema */
+.card-dark {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  backdrop-filter: blur(4px);
+}
+
+.form-control-dark {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-fg);
+}
+.form-control-dark::placeholder {
+  color: color-mix(in oklab, var(--color-muted), transparent 25%);
+}
+.form-control-dark:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 .25rem color-mix(in oklab, var(--color-accent) 30%, transparent);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  color: var(--color-fg);
+  border: none;
+}
+.btn-accent:hover {
+  filter: brightness(1.05);
+  color: var(--color-fg);
+}
+.btn-outline-accent {
+  border: 1px solid var(--color-accent);
+  color: var(--color-fg);
+  background: transparent;
+}
+.btn-outline-accent:hover {
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--color-accent) 20%, transparent),
+    color-mix(in oklab, var(--color-accent-2) 20%, transparent)
+  );
+  color: var(--color-fg);
+  border-color: color-mix(in oklab, var(--color-accent), var(--color-accent-2));
+}
+
+.badge-gradient {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  color: var(--color-fg);
+  border: 0;
+}
+.badge-outline {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--color-fg);
+  background: transparent;
+}
+
+.link-accent {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.link-accent:hover {
+  color: var(--color-accent-2);
+  text-decoration: underline;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-visual {
+  min-height: 240px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.hero-visual img {
+  display: block;
+}
+.hero-glow {
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(
+      60% 60% at 50% 50%,
+      color-mix(in oklab, var(--color-accent) 35%, transparent),
+      transparent 60%
+    ), radial-gradient(40% 40% at 60% 40%, color-mix(in oklab, var(--color-accent-2) 25%, transparent), transparent 60%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* Tabel */
+.table-dark {
+  --bs-table-bg: transparent;
+  --bs-table-border-color: rgba(255, 255, 255, 0.08);
+}
+.table-dark thead th {
+  color: var(--color-muted);
+  font-weight: 600;
+  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Navbar */
+.navbar-dark .navbar-nav .nav-link {
+  color: var(--color-fg);
+  opacity: 0.9;
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: var(--color-accent-2);
+}
+
+/* Radius seragam */
+.btn,
+.card,
+.form-control,
+.navbar,
+.badge {
+  border-radius: var(--radius) !important;
+}
+
+/* Aksesibilitas: fokus yang jelas */
+:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--color-accent), var(--color-accent-2));
+  outline-offset: 2px;
+}
