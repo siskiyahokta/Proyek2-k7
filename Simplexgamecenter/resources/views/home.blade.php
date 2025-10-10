@@ -2,7 +2,6 @@
 @extends('layouts.app')
 
 @section('content')
-   Hero 
   <section class="hero card-dark rounded-4 p-4 p-md-5 mb-5">
     <div class="row align-items-center g-4">
       <div class="col-lg-7">

@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-transparent sticky-top py-3">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
-      <img src="{{ asset('images/logo.jpg') }}" alt="Logo Simplex Game Center" width="32" height="32" />
+      <img src="{{ asset('images/logosimplex.png') }}" alt="Logo Simplex Game Center" width="32" height="32" />
       <span class="fw-bold gradient-text">Simplex Game Center</span>
     </a>
     <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Navigasi">

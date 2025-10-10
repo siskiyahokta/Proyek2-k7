@@ -15,18 +15,18 @@
 
   @php
     $games = [
-      ['title'=>'Elden Ring','img'=>'images/games/elden-ring.jpg','genre'=>'Action RPG'],
-      ['title'=>'FIFA 24','img'=>'images/games/fifa-24.jpg','genre'=>'Sports'],
-      ['title'=>'Gran Turismo 7','img'=>'images/games/gt7.jpg','genre'=>'Racing'],
-      ['title'=>'Spider-Man 2','img'=>'images/games/spiderman2.jpg','genre'=>'Action'],
-      ['title'=>'God of War Ragnarok','img'=>'images/games/gow-ragnarok.jpg','genre'=>'Action'],
-      ['title'=>'Horizon Forbidden West','img'=>'images/games/horizon-fw.jpg','genre'=>'Adventure'],
-      ['title'=>'Street Fighter 6','img'=>'images/games/sf6.jpg','genre'=>'Fighting'],
-      ['title'=>'NBA 2K25','img'=>'images/games/nba-2k25.jpg','genre'=>'Sports'],
-      ['title'=>'Ghost of Tsushima','img'=>'images/games/ghost.jpg','genre'=>'Action'],
-      ['title'=>'Call of Duty MW3','img'=>'images/games/cod-mw3.jpg','genre'=>'Shooter'],
-      ['title'=>'Resident Evil 4','img'=>'images/games/re4.jpg','genre'=>'Horror'],
-      ['title'=>'Tekken 8','img'=>'images/games/tekken8.jpg','genre'=>'Fighting'],
+      ['title'=>'PES 2026 patch monster','img'=>'images/pes2026patchmonster.jpg','genre'=>'Sports'],
+      ['title'=>'PES 2026 eleven','img'=>'images/pes2026eleven.jpg','genre'=>'Sports'],
+      ['title'=>'street fighter','img'=>'images/streetfighter.jpg','genre'=>'Racing'],
+      ['title'=>'naruto x boruto','img'=>'images/narutoxboruto.jpg','genre'=>'Action'],
+      ['title'=>'injustice','img'=>'images/injustice 1.jpg','genre'=>'Fighting'],
+      ['title'=>'injustice 2','img'=>'images/injustice 2.jpg','genre'=>'Fighting'],
+      ['title'=>'it takes two','img'=>'images/ittakestwo.jpg','genre'=>'Adventure'],
+      ['title'=>'NBA 2K25','img'=>'images/NBA.jpg','genre'=>'Sports'],
+      ['title'=>'Overcooked!','img'=>'images/overcooked.jpg','genre'=>'Party Simulation'],
+      ['title'=>'GTA5','img'=>'images/gta5.jpg','genre'=>'Action'],
+      ['title'=>'downhills','img'=>'images/downhills.jpg','genre'=>'Racing'],
+      ['title'=>'FC25','img'=>'images/fc25.jpg','genre'=>'Sports'],
     ];
   @endphp
 
