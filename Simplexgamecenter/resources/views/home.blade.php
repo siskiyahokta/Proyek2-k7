@@ -24,38 +24,38 @@
       </div>
     </div>
   </section>
-  
-  <section class="mb-5">
+
+  <section class="mb-5 reveal-on-scroll">
     <h2 class="h4 fw-semibold mb-3">Statistik Member</h2>
     <div class="row g-4">
       <div class="col-12 col-md-4">
-        <div class="card card-dark h-100">
+        <div class="card card-dark stat-card h-100">
           <div class="card-body d-flex align-items-center justify-content-between">
             <div>
               <div class="text-muted small mb-1">Total Member</div>
-              <div class="h3 m-0">12,450</div>
+              <div class="h3 m-0 stat-number" data-counter="12450">12,450</div>
             </div>
             <span class="badge badge-gradient">+5.2%</span>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-4">
-        <div class="card card-dark h-100">
+        <div class="card card-dark stat-card h-100">
           <div class="card-body d-flex align-items-center justify-content-between">
             <div>
               <div class="text-muted small mb-1">Game Tersedia</div>
-              <div class="h3 m-0">320+</div>
+              <div class="h3 m-0 stat-number" data-counter="320">320+</div>
             </div>
             <span class="badge badge-gradient">Baru</span>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-4">
-        <div class="card card-dark h-100">
+        <div class="card card-dark stat-card h-100">
           <div class="card-body d-flex align-items-center justify-content-between">
             <div>
               <div class="text-muted small mb-1">Jam Rental Hari Ini</div>
-              <div class="h3 m-0">86</div>
+              <div class="h3 m-0 stat-number" data-counter="86">86</div>
             </div>
             <span class="badge badge-gradient">Aktif</span>
           </div>

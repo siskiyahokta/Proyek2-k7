@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top py-3">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">

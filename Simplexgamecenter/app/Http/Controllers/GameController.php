@@ -8,314 +8,37 @@ class GameController extends Controller
 {
     public function index()
     {
-        // Data game saat ini masih dummy di view.
-        // Jika ingin mem-pass dari controller: return view('games.index', compact('games'));
-        $games = $this->catalog();
-        return view('games.index', compact('games'));
-    }
-
-    private function catalog(): array
-    {
-        $p = fn($path) => asset($path);
-
-        return [
-            // PS4
-            'pes-2026-patch-monster' => [
-                'title' => 'PES 2026 Patch Monster',
-                'developer' => 'Konami (mod community)',
-                'publisher' => 'Konami',
-                'genres' => ['Sports', 'Football'],
-                'storyline' => 'Patch mod yang menyegarkan musim terbaru dengan update liga, tim, kostum, dan stadion.',
-                'release_year' => 2026,
-                'age_rating' => 'E (Everyone)',
-                'platforms' => ['PS4'],
-                'modes' => ['Single-player', 'Local Multiplayer', 'Co-op'],
-                'size_gb' => 45,
-                'languages' => ['EN', 'ID'],
-                'rating' => 4.4,
-                'cover' => $p('images/games/pes2026patchmonster-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/pes2026patchmonster-1.jpg'),
-                    $p('images/games/pes2026patchmonster-2.jpg'),
-                ],
-                'features' => [
-                    'Update roster & kits musim terbaru',
-                    'Peningkatan grafis dan stadion',
-                    'Mode karier dan turnamen',
-                ],
-            ],
-            'pes-2026-eleven' => [
-                'title' => 'PES 2026 Eleven',
-                'developer' => 'Konami',
-                'publisher' => 'Konami',
-                'genres' => ['Sports', 'Football'],
-                'storyline' => 'Pengalaman sepak bola sinematik dengan gameplay lebih responsif.',
-                'release_year' => 2026,
-                'age_rating' => 'E (Everyone)',
-                'platforms' => ['PS4'],
-                'modes' => ['Single-player', 'Local Multiplayer', 'Online'],
-                'size_gb' => 42,
-                'languages' => ['EN', 'ID', 'JP'],
-                'rating' => 4.2,
-                'cover' => $p('images/games/pes2026eleven-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/pes2026eleven-1.jpg'),
-                ],
-                'features' => [
-                    'Animasi gerak lebih halus',
-                    'Mode online stabil',
-                ],
-            ],
-            'street-fighter' => [
-                'title' => 'Street Fighter',
-                'developer' => 'Capcom',
-                'publisher' => 'Capcom',
-                'genres' => ['Fighting'],
-                'storyline' => 'Pertarungan cepat antar petarung ikonik dengan mekanik kombo yang dalam.',
-                'release_year' => 2023,
-                'age_rating' => 'T (Teen)',
-                'platforms' => ['PS4'],
-                'modes' => ['Single-player', 'Versus', 'Online'],
-                'size_gb' => 38,
-                'languages' => ['EN', 'JP'],
-                'rating' => 4.6,
-                'cover' => $p('images/games/streetfighter-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/streetfighter-1.jpg'),
-                    $p('images/games/streetfighter-2.jpg'),
-                ],
-                'features' => [
-                    'Roster petarung beragam',
-                    'Sistem kombo intuitif',
-                ],
-            ],
-            'naruto-x-boruto' => [
-                'title' => 'Naruto x Boruto',
-                'developer' => 'Bandai Namco',
-                'publisher' => 'Bandai Namco',
-                'genres' => ['Action', 'Fighting'],
-                'storyline' => 'Aksi shinobi cepat dengan jurus spektakuler lintas generasi.',
-                'release_year' => 2022,
-                'age_rating' => 'T (Teen)',
-                'platforms' => ['PS4'],
-                'modes' => ['Story', 'Versus', 'Online'],
-                'size_gb' => 30,
-                'languages' => ['EN', 'JP'],
-                'rating' => 4.1,
-                'cover' => $p('images/games/narutoxboruto-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/narutoxboruto-1.jpg'),
-                ],
-                'features' => [
-                    'Mode cerita sinematik',
-                    'Banyak jurus spesial',
-                ],
-            ],
-            'injustice' => [
-                'title' => 'Injustice',
-                'developer' => 'NetherRealm',
-                'publisher' => 'WB Games',
-                'genres' => ['Fighting'],
-                'storyline' => 'Pertarungan superhero DC dalam kisah alternatif yang gelap.',
-                'release_year' => 2013,
-                'age_rating' => 'T (Teen)',
-                'platforms' => ['PS4'],
-                'modes' => ['Story', 'Versus', 'Online'],
-                'size_gb' => 25,
-                'languages' => ['EN'],
-                'rating' => 4.0,
-                'cover' => $p('images/games/injustice1-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/injustice1-1.jpg'),
-                ],
-                'features' => [
-                    'Cinematic story mode',
-                    'Roster DC ikonik',
-                ],
-            ],
-            'injustice-2' => [
-                'title' => 'Injustice 2',
-                'developer' => 'NetherRealm',
-                'publisher' => 'WB Games',
-                'genres' => ['Fighting'],
-                'storyline' => 'Sekuel dengan sistem gear dan konten lebih kaya.',
-                'release_year' => 2017,
-                'age_rating' => 'T (Teen)',
-                'platforms' => ['PS4'],
-                'modes' => ['Story', 'Versus', 'Online'],
-                'size_gb' => 36,
-                'languages' => ['EN'],
-                'rating' => 4.3,
-                'cover' => $p('images/games/injustice2-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/injustice2-1.jpg'),
-                ],
-                'features' => [
-                    'Sistem gear unik',
-                    'Mode multiverse',
-                ],
-            ],
-
-            // PS5
-            'it-takes-two' => [
-                'title' => 'It Takes Two',
-                'developer' => 'Hazelight',
-                'publisher' => 'EA',
-                'genres' => ['Adventure', 'Co-op'],
-                'storyline' => 'Petualangan ko-op kreatif dua karakter yang harus bekerja sama.',
-                'release_year' => 2021,
-                'age_rating' => 'T (Teen)',
-                'platforms' => ['PS5'],
-                'modes' => ['Local Co-op', 'Online Co-op'],
-                'size_gb' => 43,
-                'languages' => ['EN', 'ID (subtitle)'],
-                'rating' => 4.8,
-                'cover' => $p('images/games/ittakestwo-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/ittakestwo-1.jpg'),
-                    $p('images/games/ittakestwo-2.jpg'),
-                ],
-                'features' => [
-                    'Puzzle ko-op inovatif',
-                    'Variasi gameplay tiap bab',
-                ],
-            ],
-            'nba-2k25' => [
-                'title' => 'NBA 2K25',
-                'developer' => 'Visual Concepts',
-                'publisher' => '2K',
-                'genres' => ['Sports', 'Basketball'],
-                'storyline' => 'Simulasi basket generasi terbaru dengan fisika realistis.',
-                'release_year' => 2025,
-                'age_rating' => 'E (Everyone)',
-                'platforms' => ['PS5'],
-                'modes' => ['MyCareer', 'MyTeam', 'Online'],
-                'size_gb' => 90,
-                'languages' => ['EN'],
-                'rating' => 4.5,
-                'cover' => $p('images/games/nba2k25-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/nba2k25-1.jpg'),
-                ],
-                'features' => [
-                    'Mode MyCareer mendalam',
-                    'Grafis next-gen',
-                ],
-            ],
-            'overcooked' => [
-                'title' => 'Overcooked!',
-                'developer' => 'Ghost Town Games',
-                'publisher' => 'Team17',
-                'genres' => ['Party', 'Simulation'],
-                'storyline' => 'Chaos dapur yang seru dan menantang untuk dimainkan bersama.',
-                'release_year' => 2016,
-                'age_rating' => 'E (Everyone)',
-                'platforms' => ['PS5'],
-                'modes' => ['Local Co-op', 'Versus'],
-                'size_gb' => 6,
-                'languages' => ['EN'],
-                'rating' => 4.4,
-                'cover' => $p('images/games/overcooked-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/overcooked-1.jpg'),
-                ],
-                'features' => [
-                    'Ko-op super seru',
-                    'Level desain kreatif',
-                ],
-            ],
-            'gta5' => [
-                'title' => 'GTA 5',
-                'developer' => 'Rockstar North',
-                'publisher' => 'Rockstar Games',
-                'genres' => ['Action', 'Open World'],
-                'storyline' => 'Kisah tiga protagonis dalam dunia terbuka Los Santos.',
-                'release_year' => 2013,
-                'age_rating' => 'M (Mature 17+)',
-                'platforms' => ['PS5'],
-                'modes' => ['Single-player', 'Online'],
-                'size_gb' => 95,
-                'languages' => ['EN'],
-                'rating' => 4.7,
-                'cover' => $p('images/games/gta5-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/gta5-1.jpg'),
-                ],
-                'features' => [
-                    'Dunia terbuka luas',
-                    'Konten online masif',
-                ],
-            ],
-            'downhills' => [
-                'title' => 'Downhills',
-                'developer' => 'Indie Studio',
-                'publisher' => 'Indie',
-                'genres' => ['Racing'],
-                'storyline' => 'Balapan sepeda menuruni bukit yang menegangkan.',
-                'release_year' => 2024,
-                'age_rating' => 'E (Everyone)',
-                'platforms' => ['PS5'],
-                'modes' => ['Single-player'],
-                'size_gb' => 12,
-                'languages' => ['EN'],
-                'rating' => 3.9,
-                'cover' => $p('images/games/downhills-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/downhills-1.jpg'),
-                ],
-                'features' => [
-                    'Kontrol presisi',
-                    'Lintasan bervariasi',
-                ],
-            ],
-            'fc25' => [
-                'title' => 'FC25',
-                'developer' => 'EA',
-                'publisher' => 'EA',
-                'genres' => ['Sports', 'Football'],
-                'storyline' => 'Pengalaman sepak bola modern dengan tempo cepat.',
-                'release_year' => 2025,
-                'age_rating' => 'E (Everyone)',
-                'platforms' => ['PS5'],
-                'modes' => ['Online', 'Career', 'Volta'],
-                'size_gb' => 80,
-                'languages' => ['EN'],
-                'rating' => 4.3,
-                'cover' => $p('images/games/fc25-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/fc25-1.jpg'),
-                ],
-                'features' => [
-                    'Mesin fisika baru',
-                    'Mode karier ditingkatkan',
-                ],
-            ],
-            'street-fighter-6' => [
-                'title' => 'Street Fighter 6',
-                'developer' => 'Capcom',
-                'publisher' => 'Capcom',
-                'genres' => ['Fighting', 'Action'],
-                'storyline' => 'Pertarungan cepat dengan Drive System baru, roster ikonik, dan online netcode modern untuk pengalaman kompetitif lintas mode.',
-                'release_year' => 2023,
-                'age_rating' => 'T (Teen)',
-                'platforms' => ['PS4', 'PS5'],
-                'modes' => ['Story', 'Versus', 'Online Ranked', 'Training'],
-                'size_gb' => 50,
-                'languages' => ['EN', 'JP', 'ID (subtitle)'],
-                'rating' => 4.7,
-                'cover' => $p('images/games/streetfighter6-cover.jpg'),
-                'screenshots' => [
-                    $p('images/games/streetfighter6-1.jpg'),
-                    $p('images/games/streetfighter6-2.jpg'),
-                    $p('images/games/streetfighter6-3.jpg'),
-                ],
-                'features' => [
-                    'Drive System dengan variasi defensif dan ofensif',
-                    'Rollback netcode untuk pengalaman online stabil',
-                    'Mode single-player eksploratif dan latihan kombo mendalam',
-                ],
-            ],
-        ];
+        // Siapkan data untuk view
+        $catalog = $this->catalog();
+        
+        // Pisahkan berdasarkan platform
+        $ps4Games = [];
+        $ps5Games = [];
+        
+        foreach ($catalog as $slug => $game) {
+            $platforms = $game['platforms'] ?? [];
+            
+            // Konversi ke format array yang cocok dengan view
+            $gameData = [
+                'title' => $game['title'],
+                'img' => $game['cover'],
+                'genre' => is_array($game['genres']) ? implode(', ', $game['genres']) : $game['genres'],
+                'desc' => $game['storyline'] ?? '',
+                'developer' => $game['developer'] ?? '-',
+                'year' => $game['release_year'] ?? '-',
+                'age' => $game['age_rating'] ?? '-',
+                'slug' => $slug,
+            ];
+            
+            if (in_array('PS4', $platforms)) {
+                $ps4Games[] = $gameData;
+            }
+            if (in_array('PS5', $platforms)) {
+                $ps5Games[] = $gameData;
+            }
+        }
+        
+        return view('games.index', compact('ps4Games', 'ps5Games'));
     }
 
     public function show(string $slug)
@@ -342,6 +65,7 @@ class GameController extends Controller
                 'features' => ['Template fitur 1', 'Template fitur 2'],
             ];
         }
+        
         $game = $catalog[$slug];
 
         if (view()->exists("games.$slug")) {
@@ -349,5 +73,320 @@ class GameController extends Controller
         }
 
         return view('games.show', compact('game', 'slug'));
+    }
+
+    // ================= Admin stubs (sesuaikan nanti) =================
+    public function adminIndex() 
+    { 
+        return response('Admin - daftar games', 200); 
+    }
+    
+    public function create() 
+    { 
+        return response('Admin - form tambah game', 200); 
+    }
+    
+    public function store(Request $request) 
+    { 
+        return response('Admin - simpan game (stub)', 201); 
+    }
+    
+    public function edit($game) 
+    { 
+        return response("Admin - edit game {$game}", 200); 
+    }
+    
+    public function update(Request $request, $game) 
+    { 
+        return response("Admin - update game {$game} (stub)", 200); 
+    }
+    
+    public function destroy($game) 
+    { 
+        return response("Admin - hapus game {$game} (stub)", 200); 
+    }
+
+    // ================= Data statis contoh untuk demo =================
+    private function catalog(): array
+    {
+        $p = fn($path) => asset($path);
+
+        return [
+            // PS4 Games
+            'pes-2026-eleven' => [
+                'title' => 'PES 2026 Eleven',
+                'cover' => $p('images/pes2026eleven.jpg'),
+                'genres' => ['Sports'],
+                'platforms' => ['PS4', 'PS5'],
+                'rating' => 4.2,
+                'developer' => 'Konami',
+                'publisher' => 'Konami',
+                'release_year' => 2026,
+                'age_rating' => 'E',
+                'storyline' => 'Mode karier, turnamen lengkap, dan update musim terbaru.',
+                'modes' => ['Single Player', 'Co-op', 'Online'],
+                'size_gb' => 40,
+                'languages' => ['EN', 'ID'],
+                'features' => ['AI lebih pintar', 'Animasi gerakan baru', 'Stadion update'],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'pes-2026-patch-monster' => [
+                'title' => 'PES 2026 Patch Monster',
+                'cover' => $p('images/pes2026patchmonster.jpg'),
+                'genres' => ['Sports'],
+                'platforms' => ['PS4'],
+                'rating' => 4.0,
+                'developer' => 'Konami (mod)',
+                'publisher' => 'Community',
+                'release_year' => 2026,
+                'age_rating' => 'E',
+                'storyline' => 'Patch komunitas dengan update tim, kit, dan stadion.',
+                'modes' => ['Single Player', 'Local Co-op'],
+                'size_gb' => 35,
+                'languages' => ['EN'],
+                'features' => ['Kit lengkap', 'Nama tim resmi', 'Stadion baru'],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'street-fighter-6' => [
+                'title' => 'Street Fighter 6',
+                'cover' => $p('images/streetfighter.jpg'),
+                'genres' => ['Fighting', 'Action'],
+                'platforms' => ['PS4', 'PS5'],
+                'rating' => 4.7,
+                'developer' => 'Capcom',
+                'publisher' => 'Capcom',
+                'release_year' => 2023,
+                'age_rating' => 'T',
+                'storyline' => 'Pertarungan cepat dengan Drive System baru, roster ikonik, dan online netcode modern untuk pengalaman kompetitif lintas mode.',
+                'modes' => ['Story', 'Versus', 'Online Ranked', 'Training'],
+                'size_gb' => 50,
+                'languages' => ['EN', 'JP', 'ID'],
+                'features' => [
+                    'Drive System dengan variasi defensif dan ofensif',
+                    'Rollback netcode untuk pengalaman online stabil',
+                    'Mode single-player eksploratif dan latihan kombo mendalam',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                    $p('images/placeholder-640x360.jpg'),
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'naruto-x-boruto' => [
+                'title' => 'Naruto x Boruto',
+                'cover' => $p('images/narutoxboruto.jpg'),
+                'genres' => ['Action', 'Fighting'],
+                'platforms' => ['PS4'],
+                'rating' => 4.1,
+                'developer' => 'Bandai Namco',
+                'publisher' => 'Bandai Namco',
+                'release_year' => 2022,
+                'age_rating' => 'T',
+                'storyline' => 'Aksi shinobi cepat dengan jurus spektakuler lintas generasi.',
+                'modes' => ['Story', 'Versus', 'Online'],
+                'size_gb' => 30,
+                'languages' => ['EN', 'JP'],
+                'features' => [
+                    'Mode cerita sinematik',
+                    'Banyak jurus spesial',
+                    'Roster petarung beragam',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'injustice' => [
+                'title' => 'Injustice',
+                'cover' => $p('images/injustice 1.jpg'),
+                'genres' => ['Fighting'],
+                'platforms' => ['PS4'],
+                'rating' => 4.0,
+                'developer' => 'NetherRealm',
+                'publisher' => 'WB Games',
+                'release_year' => 2013,
+                'age_rating' => 'T',
+                'storyline' => 'Pertarungan superhero DC dalam kisah alternatif yang gelap.',
+                'modes' => ['Story', 'Versus', 'Online'],
+                'size_gb' => 25,
+                'languages' => ['EN'],
+                'features' => [
+                    'Cinematic story mode',
+                    'Roster DC ikonik',
+                    'Pertarungan epik',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'injustice-2' => [
+                'title' => 'Injustice 2',
+                'cover' => $p('images/injustice 2.jpg'),
+                'genres' => ['Fighting'],
+                'platforms' => ['PS4'],
+                'rating' => 4.3,
+                'developer' => 'NetherRealm',
+                'publisher' => 'WB Games',
+                'release_year' => 2017,
+                'age_rating' => 'T',
+                'storyline' => 'Sekuel dengan sistem gear dan konten lebih kaya.',
+                'modes' => ['Story', 'Versus', 'Online'],
+                'size_gb' => 36,
+                'languages' => ['EN'],
+                'features' => [
+                    'Sistem gear unik',
+                    'Mode multiverse',
+                    'Roster lebih banyak',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+
+            // PS5 Games
+            'it-takes-two' => [
+                'title' => 'It Takes Two',
+                'cover' => $p('images/ittakestwo.jpg'),
+                'genres' => ['Adventure', 'Co-op'],
+                'platforms' => ['PS5'],
+                'rating' => 4.8,
+                'developer' => 'Hazelight',
+                'publisher' => 'EA',
+                'release_year' => 2021,
+                'age_rating' => 'T',
+                'storyline' => 'Petualangan ko-op kreatif dua karakter yang harus bekerja sama.',
+                'modes' => ['Local Co-op', 'Online Co-op'],
+                'size_gb' => 43,
+                'languages' => ['EN', 'ID'],
+                'features' => [
+                    'Puzzle ko-op inovatif',
+                    'Variasi gameplay tiap bab',
+                    'Cerita emosional',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'nba-2k25' => [
+                'title' => 'NBA 2K25',
+                'cover' => $p('images/NBA.jpg'),
+                'genres' => ['Sports', 'Basketball'],
+                'platforms' => ['PS5'],
+                'rating' => 4.5,
+                'developer' => 'Visual Concepts',
+                'publisher' => '2K',
+                'release_year' => 2025,
+                'age_rating' => 'E',
+                'storyline' => 'Simulasi basket generasi terbaru dengan fisika realistis.',
+                'modes' => ['MyCareer', 'MyTeam', 'Online'],
+                'size_gb' => 90,
+                'languages' => ['EN'],
+                'features' => [
+                    'Mode MyCareer mendalam',
+                    'Grafis next-gen',
+                    'Fisika realistis',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'overcooked' => [
+                'title' => 'Overcooked!',
+                'cover' => $p('images/overcooked.jpg'),
+                'genres' => ['Party', 'Simulation'],
+                'platforms' => ['PS5'],
+                'rating' => 4.4,
+                'developer' => 'Ghost Town Games',
+                'publisher' => 'Team17',
+                'release_year' => 2016,
+                'age_rating' => 'E',
+                'storyline' => 'Chaos dapur yang seru dan menantang untuk dimainkan bersama.',
+                'modes' => ['Local Co-op', 'Versus'],
+                'size_gb' => 6,
+                'languages' => ['EN'],
+                'features' => [
+                    'Ko-op super seru',
+                    'Level desain kreatif',
+                    'Party game terbaik',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'gta5' => [
+                'title' => 'GTA 5',
+                'cover' => $p('images/gta5.jpg'),
+                'genres' => ['Action', 'Open World'],
+                'platforms' => ['PS5'],
+                'rating' => 4.7,
+                'developer' => 'Rockstar North',
+                'publisher' => 'Rockstar Games',
+                'release_year' => 2013,
+                'age_rating' => 'M',
+                'storyline' => 'Kisah tiga protagonis dalam dunia terbuka Los Santos.',
+                'modes' => ['Single-player', 'Online'],
+                'size_gb' => 95,
+                'languages' => ['EN'],
+                'features' => [
+                    'Dunia terbuka luas',
+                    'Konten online masif',
+                    'Kebebasan bermain tinggi',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'downhills' => [
+                'title' => 'Downhills',
+                'cover' => $p('images/downhills.jpg'),
+                'genres' => ['Racing'],
+                'platforms' => ['PS5'],
+                'rating' => 3.9,
+                'developer' => 'Indie Studio',
+                'publisher' => 'Indie',
+                'release_year' => 2024,
+                'age_rating' => 'E',
+                'storyline' => 'Balapan sepeda menuruni bukit yang menegangkan.',
+                'modes' => ['Single-player'],
+                'size_gb' => 12,
+                'languages' => ['EN'],
+                'features' => [
+                    'Kontrol presisi',
+                    'Lintasan bervariasi',
+                    'Gameplay adiktif',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+            'fc25' => [
+                'title' => 'FC25',
+                'cover' => $p('images/fc25.jpg'),
+                'genres' => ['Sports', 'Football'],
+                'platforms' => ['PS5'],
+                'rating' => 4.3,
+                'developer' => 'EA',
+                'publisher' => 'EA',
+                'release_year' => 2025,
+                'age_rating' => 'E',
+                'storyline' => 'Pengalaman sepak bola modern dengan tempo cepat.',
+                'modes' => ['Online', 'Career', 'Volta'],
+                'size_gb' => 80,
+                'languages' => ['EN'],
+                'features' => [
+                    'Mesin fisika baru',
+                    'Mode karier ditingkatkan',
+                    'Ultimate Team',
+                ],
+                'screenshots' => [
+                    $p('images/placeholder-640x360.jpg'),
+                ],
+            ],
+        ];
     }
 }
