@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Simplex Game Center</title>
 
+  
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -19,6 +20,11 @@
 
     <main class="py-5">
       <div class="container">
+        @if (session('status'))
+          <div class="alert alert-success mb-4" role="alert">
+            {{ session('status') }}
+          </div>
+        @endif
         @yield('content')
       </div>
     </main>
@@ -27,19 +33,20 @@
       <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
         <div class="d-flex align-items-center gap-2">
           <img src="{{ asset('images/logosimplex.png') }}" alt="Logo Simplex Game Center" width="28" height="28" />
-          <span class="text-muted small">© {{ date('Y') }} SIMPLE X GAME CENTER. All Rights Reserved</span>
+          <span class="text-muted small">© {{ date('Y') }} Simplex Game Center</span>
         </div>
         <div class="text-muted small">
-        
         </div>
       </div>
     </footer>
 
-    
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+
+  
+    <script src="{{ asset('js/app.js') }}" defer></script>
   </body>
 </html>

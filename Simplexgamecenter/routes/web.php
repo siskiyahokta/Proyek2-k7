@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/games', [GameController::class, 'index'])->name('games.index');
+Route::get('/games/{slug}', [GameController::class, 'show'])->name('games.show');
 
 Route::get('/rental', [RentalController::class, 'index'])->name('rental.index');
 

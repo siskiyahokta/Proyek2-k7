@@ -1,5 +1,4 @@
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-transparent sticky-top py-3">
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top py-3">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
       <img src="{{ asset('images/logosimplex.png') }}" alt="Logo Simplex Game Center" width="32" height="32" />

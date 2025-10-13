@@ -1,7 +1,7 @@
-
 @extends('layouts.app')
 
 @section('content')
+
   <section class="hero card-dark rounded-4 p-4 p-md-5 mb-5">
     <div class="row align-items-center g-4">
       <div class="col-lg-7">
@@ -24,8 +24,7 @@
       </div>
     </div>
   </section>
-
-   Statistik Member 
+  
   <section class="mb-5">
     <h2 class="h4 fw-semibold mb-3">Statistik Member</h2>
     <div class="row g-4">

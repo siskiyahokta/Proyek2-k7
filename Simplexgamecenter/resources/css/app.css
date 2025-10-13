@@ -8,17 +8,22 @@
 */
 :root {
   --color-bg: #0b0f1a;
-  --color-fg: #f8fafc;
-  --color-muted: #94a3b8;
+  --color-fg: #ffffff; /* was #f8fafc */
+  --color-muted: #cfd8e3; /* was #e8eef5 (terlalu pucat di beberapa monitor) */
   --color-accent: #d946ef; /* magenta/ungu cerah */
   --color-accent-2: #22c55e; /* hijau cerah */
   --radius: 0.75rem;
+  --navbar-height: 76px; /* tingkatkan kontras muted agar lebih terbaca di tema gelap */
 }
 
 html,
 body {
   background-color: var(--color-bg);
   color: var(--color-fg);
+  padding-top: var(--navbar-height);
+  font-family: "Segoe UI", "Segoe UI Variable", system-ui, -apple-system, Arial, sans-serif; /* gunakan Segoe UI untuk body agar terasa modern, fun, gameable */
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 .bg-app {
@@ -29,14 +34,17 @@ body {
 }
 .text-muted {
   color: var(--color-muted) !important;
+  font-family: "Segoe UI", "Segoe UI Variable", system-ui, sans-serif; /* heading/brand pakai Segoe UI untuk nuansa futuristik gaming */
+  font-weight: 400;
 }
 
 /* Komponen utilitas bertema */
 .card-dark {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07); /* was 0.11 */
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: var(--radius);
   backdrop-filter: blur(4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28); /* small shadow to elevate cards slightly for readability */
 }
 
 .form-control-dark {
@@ -56,6 +64,8 @@ body {
   background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
   color: var(--color-fg);
   border: none;
+  font-family: "Bahnschrift", "Segoe UI", "Kanit", system-ui, sans-serif; /* tombol/badge pakai kombinasi font agar selaras */
+  letter-spacing: 0.3px;
 }
 .btn-accent:hover {
   filter: brightness(1.05);
@@ -65,6 +75,8 @@ body {
   border: 1px solid var(--color-accent);
   color: var(--color-fg);
   background: transparent;
+  font-family: "Bahnschrift", "Segoe UI", "Kanit", system-ui, sans-serif; /* tombol/badge pakai kombinasi font agar selaras */
+  letter-spacing: 0.3px;
 }
 .btn-outline-accent:hover {
   background: linear-gradient(
@@ -80,11 +92,21 @@ body {
   background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
   color: var(--color-fg);
   border: 0;
+  font-family: "Bahnschrift", "Segoe UI", "Kanit", system-ui, sans-serif; /* tombol/badge pakai kombinasi font agar selaras */
+  letter-spacing: 0.3px;
 }
 .badge-outline {
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: var(--color-fg);
   background: transparent;
+}
+
+.badge-soft {
+  /* subtle filled badge with decent contrast */
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--color-fg);
+  font-weight: 600;
 }
 
 .link-accent {
@@ -106,9 +128,23 @@ body {
 .hero-visual {
   min-height: 240px;
   background: rgba(255, 255, 255, 0.03);
+  /* catatan: jika nanti memakai background-image di CSS, gunakan path absolut ke public */
+  /* contoh:
+  background-image: url('/images/hero.jpg'); background-size: cover; background-position: center; */
+  position: relative;
+  overflow: hidden;
+}
+.hero-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.32) 55%, rgba(0, 0, 0, 0.44) 100%); /* darker */
+  pointer-events: none;
 }
 .hero-visual img {
   display: block;
+  height: 100%;
+  object-fit: cover;
 }
 .hero-glow {
   position: absolute;
@@ -132,19 +168,35 @@ body {
   font-weight: 600;
   border-bottom-color: rgba(255, 255, 255, 0.12) !important;
 }
+.table-dark tbody td {
+  color: color-mix(in oklab, var(--color-fg) 98%, var(--color-muted)); /* was 96% */
+}
 
 /* Navbar */
 .navbar-dark .navbar-nav .nav-link {
-  color: var(--color-fg);
-  opacity: 0.9;
+  color: color-mix(in oklab, var(--color-fg) 98%, var(--color-muted));
+  opacity: 0.95;
+  font-family: "Bahnschrift", "Segoe UI", system-ui, sans-serif; /* nav link: lebih tegas, uppercase, spacing rapi */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-size: 0.98rem; /* slightly larger readable nav text */
 }
 .navbar-dark .navbar-nav .nav-link:hover {
   color: var(--color-accent-2);
 }
- .navbar-dark .navbar-brand .gradient-text {
-   font-size: 1.25rem;
-   border-radius: 20px;
- }
+
+.navbar.fixed-top {
+  background: rgba(11, 15, 26, 0.78) !important; /* stabilkan navbar fixed-top: beri background blur & border */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 1040;
+}
+
+.navbar.navbar-scrolled {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
 
 /* Radius seragam */
 .btn,
@@ -159,4 +211,136 @@ body {
 :focus-visible {
   outline: 2px solid color-mix(in oklab, var(--color-accent), var(--color-accent-2));
   outline-offset: 2px;
+}
+
+.text-high-contrast {
+  color: var(--color-fg) !important;
+}
+
+/* Heading dan brand menggunakan Bahnschrift agar terasa futuristik-gaming */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar-brand,
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.lead {
+  font-family: "Bahnschrift", "Segoe UI", system-ui, sans-serif;
+  letter-spacing: 0.3px;
+}
+
+/* Penekanan angka/statistik agar standout */
+.stat-number,
+.score,
+.points,
+.counter {
+  font-family: "Bahnschrift", "Segoe UI", system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.rating-stars svg {
+  vertical-align: middle;
+}
+
+.game-meta .card-dark {
+  min-height: 84px;
+}
+
+.list-group-item {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.breadcrumb-dark {
+  /* subtle breadcrumb on dark bg */
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius);
+}
+.breadcrumb-dark .breadcrumb-item a {
+  color: color-mix(in oklab, var(--color-accent) 70%, var(--color-fg));
+  text-decoration: none;
+}
+.breadcrumb-dark .breadcrumb-item a:hover {
+  color: var(--color-accent-2);
+  text-decoration: underline;
+}
+.breadcrumb-dark .breadcrumb-item + .breadcrumb-item::before {
+  color: color-mix(in oklab, var(--color-fg) 50%, var(--color-muted));
+}
+
+.sticky-action-bar {
+  /* persistent CTAs for game detail */
+  position: sticky;
+  bottom: 0;
+  z-index: 1030;
+  background: rgba(11, 15, 26, 0.9); /* visual polish */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.14); /* visual polish */
+}
+.sticky-action-bar .btn {
+  min-width: 148px; /* visual polish */
+}
+
+.card-dark .text-muted,
+.game-meta .text-muted {
+  /* bias toward foreground for readability */
+  color: color-mix(in oklab, var(--color-fg) 94%, var(--color-muted)) !important; /* was 82-88% */
+  opacity: 1;
+}
+
+.section-title,
+.card-title,
+h5.section-title {
+  color: color-mix(in oklab, var(--color-fg) 98%, var(--color-muted)) !important; /* was 95% */
+  font-weight: 800; /* bolder */
+}
+
+.meta-label {
+  color: color-mix(in oklab, var(--color-fg) 88%, var(--color-muted)) !important; /* was 75% */
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.meta-value,
+.text-high-contrast {
+  color: var(--color-fg) !important;
+  font-weight: 700; /* was 600 */
+}
+
+.card-dark small,
+.card-dark .lead,
+.game-meta .lead {
+  color: color-mix(in oklab, var(--color-fg) 94%, var(--color-muted)) !important; /* was 82-88% */
+  opacity: 1;
+}
+
+.card-dark a {
+  color: color-mix(in oklab, var(--color-accent) 75%, var(--color-fg));
+}
+.card-dark a:hover {
+  color: var(--color-accent-2);
+  text-decoration: underline;
+}
+
+.card.card-dark:hover {
+  transform: translateY(-2px);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 991.98px) {
+  :root {
+    --navbar-height: 88px;
+  }
+}
+@media (max-width: 575.98px) {
+  :root {
+    --navbar-height: 96px;
+  }
 }
