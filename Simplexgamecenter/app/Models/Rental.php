@@ -15,7 +15,7 @@ class Rental extends Model
         'start_at',
         'end_at',
         'total_price',
-        'status', // pending|paid|canceled|expired|completed
+        'status',
         'order_id',
     ];
 
@@ -25,4 +25,19 @@ class Rental extends Model
         'start_at' => 'datetime',
         'end_at' => 'datetime',
     ];
+
+    public function console()
+    {
+        return $this->belongsTo(Console::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
 }

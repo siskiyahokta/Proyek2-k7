@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -19,26 +21,62 @@ class AuthController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
-        // Demo: validasi sederhana (belum ada autentikasi sebenarnya)
         $request->validate([
             'email' => ['required','email'],
             'password' => ['required','string','min:6'],
         ]);
 
-        // TODO: implementasikan auth sebenarnya (Laravel Auth/Jetstream/fortify)
-        return redirect()->route('home')->with('status', 'Login berhasil (demo)');
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withInput($request->only('email'))->with('status', 'Email tidak terdaftar.');
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withInput($request->only('email'))->with('status', 'Password salah.');
+        }
+
+        // Simpan sesi
+        $request->session()->put('auth_user_id', $user->id);
+        $request->session()->put('auth_user_name', $user->name);
+        $request->session()->put('auth_user_email', $user->email);
+        $request->session()->put('auth_user_role', $user->role);
+
+        if ($user->role === 'admin') {
+            return redirect('/admin')->with('status', 'Login berhasil. Selamat datang di Dashboard Admin!');
+        }
+        
+        return redirect('/')->with('status', 'Login berhasil. Selamat datang!');
     }
 
     public function register(Request $request): RedirectResponse
     {
-        // Demo: validasi sederhana (belum membuat user sebenarnya)
         $request->validate([
             'name' => ['required','string','max:255'],
-            'email' => ['required','email'],
+            'email' => ['required','email','max:255','unique:users'],
             'password' => ['required','string','min:6','confirmed'],
         ]);
 
-        // TODO: simpan user, kemudian login
-        return redirect()->route('home')->with('status', 'Registrasi berhasil (demo)');
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'user',
+        ]);
+
+        // Auto login setelah register
+        $request->session()->put('auth_user_id', $user->id);
+        $request->session()->put('auth_user_name', $user->name);
+        $request->session()->put('auth_user_email', $user->email);
+        $request->session()->put('auth_user_role', $user->role);
+
+        return redirect('/')->with('status', 'Registrasi berhasil! Selamat datang di Simplex Game Center.');
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/')->with('status', 'Anda telah logout.');
     }
 }
