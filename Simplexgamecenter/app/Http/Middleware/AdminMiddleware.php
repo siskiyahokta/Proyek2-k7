@@ -4,15 +4,16 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $role = $request->session()->get('auth_user_role');
-        if ($role !== 'admin') {
-            return redirect()->route('login')->with('status', 'Silakan login sebagai admin.');
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            return redirect('/')->with('error', 'Akses ditolak. Hanya admin.');
         }
+
         return $next($request);
     }
 }

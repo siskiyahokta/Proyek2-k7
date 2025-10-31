@@ -382,7 +382,8 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         ),
         'Nette\\' => 
         array (
-            0 => __DIR__ . '/..' . '/nette/utils/src',
+            0 => __DIR__ . '/..' . '/nette/schema/src',
+            1 => __DIR__ . '/..' . '/nette/utils/src',
         ),
         'Monolog\\' => 
         array (
@@ -533,12 +534,14 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
     );
 
     public static $classMap = array (
+        'App\\Http\\Controllers\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminController.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\ConsoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/ConsoleController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\GameController' => __DIR__ . '/../..' . '/app/Http/Controllers/GameController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\RentalController' => __DIR__ . '/../..' . '/app/Http/Controllers/RentalController.php',
+        'App\\Http\\Middleware\\AdminMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminMiddleware.php',
         'App\\Models\\Console' => __DIR__ . '/../..' . '/app/Models/Console.php',
         'App\\Models\\Game' => __DIR__ . '/../..' . '/app/Models/Game.php',
         'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
@@ -666,6 +669,7 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\ConsoleSeeder' => __DIR__ . '/../..' . '/database/seeders/ConsoleSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
+        'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
         'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',

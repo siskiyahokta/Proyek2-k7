@@ -18,23 +18,34 @@
   </div>
 
   @php
-    // Fallback data jika database kosong
     $fallbackPS4 = [
-      ['title'=>'PES 2026 patch monster','img'=>'images/pes2026patchmonster.jpg','genre'=>'Sports','desc'=>'Patch terbaru dengan update tim dan stadion.','developer'=>'Konami (mod)','year'=>2026,'age'=>'E'],
-      ['title'=>'PES 2026 eleven','img'=>'images/pes2026eleven.jpg','genre'=>'Sports','desc'=>'Mode karier dan turnamen lengkap.','developer'=>'Konami','year'=>2026,'age'=>'E'],
-      ['title'=>'street fighter','img'=>'images/streetfighter.jpg','genre'=>'Fighting','desc'=>'Pertarungan seru berbagai karakter ikonik.','developer'=>'Capcom','year'=>2023,'age'=>'T'],
-      ['title'=>'naruto x boruto','img'=>'images/narutoxboruto.jpg','genre'=>'Action','desc'=>'Aksi shinobi cepat dengan jurus spektakuler.','developer'=>'Bandai Namco','year'=>2022,'age'=>'T'],
-      ['title'=>'injustice','img'=>'images/injustice 1.jpg','genre'=>'Fighting','desc'=>'Pertarungan superhero DC epik.','developer'=>'NetherRealm','year'=>2013,'age'=>'T'],
-      ['title'=>'injustice 2','img'=>'images/injustice 2.jpg','genre'=>'Fighting','desc'=>'Sekuel dengan roster lebih banyak.','developer'=>'NetherRealm','year'=>2017,'age'=>'T'],
+      ['title'=>'FIFA 25','img'=>'images/fifa-25.jpg','genre'=>'Sports','desc'=>'Game sepak bola terbaru dengan grafis memukau dan gameplay yang responsif.','developer'=>'EA Sports','year'=>2024,'age'=>'E'],
+      ['title'=>'Tekken 8','img'=>'images/tekken-8.jpg','genre'=>'Fighting','desc'=>'Fighting game legendaris dengan roster karakter baru dan sistem combat revolusioner.','developer'=>'Bandai Namco','year'=>2024,'age'=>'T'],
+      ['title'=>'Street Fighter 6','img'=>'images/street-fighter-6.jpg','genre'=>'Fighting','desc'=>'Pertarungan klasik dengan grafis modern dan mode arcade yang seru.','developer'=>'Capcom','year'=>2023,'age'=>'T'],
+      ['title'=>'Mortal Kombat 11','img'=>'images/mortal-kombat-11.jpg','genre'=>'Fighting','desc'=>'Fighting game brutal dengan efek khusus spektakuler dan gameplay mendalam.','developer'=>'NetherRealm Studios','year'=>2019,'age'=>'M'],
+      ['title'=>'Injustice 2','img'=>'images/injustice-2.jpg','genre'=>'Fighting','desc'=>'Pertarungan superhero DC dengan karakter ikonik dan cerita mendalam.','developer'=>'NetherRealm Studios','year'=>2017,'age'=>'T'],
+      ['title'=>'Dragon Ball Xenoverse 2','img'=>'images/dragon-ball-xenoverse-2.jpg','genre'=>'Fighting','desc'=>'Aksi Dragon Ball dengan timeline alternatif dan pertarungan spektakuler.','developer'=>'Dimps','year'=>2016,'age'=>'T'],
+      ['title'=>'One Piece: Pirate Warriors 4','img'=>'images/one-piece-pirate-warriors-4.jpg','genre'=>'Action','desc'=>'Aksi seru berdasarkan anime One Piece dengan grafis menawan.','developer'=>'Omega Force','year'=>2020,'age'=>'T'],
+      ['title'=>'GTA V','img'=>'images/gta-v.jpg','genre'=>'Action-Adventure','desc'=>'Dunia terbuka yang luas dengan misi seru dan kebebasan bermain.','developer'=>'Rockstar North','year'=>2013,'age'=>'M'],
+      ['title'=>'Red Dead Redemption 2','img'=>'images/red-dead-redemption-2.jpg','genre'=>'Action-Adventure','desc'=>'Game western epik dengan cerita mendalam dan grafis realistis.','developer'=>'Rockstar Games','year'=>2018,'age'=>'M'],
+      ['title'=>'The Witcher 3','img'=>'images/the-witcher-3.jpg','genre'=>'RPG','desc'=>'RPG terbuka dengan cerita menarik dan dunia yang penuh eksplorasi.','developer'=>'CD Projekt Red','year'=>2015,'age'=>'M'],
+      ['title'=>'Final Fantasy XV','img'=>'images/final-fantasy-xv.jpg','genre'=>'RPG','desc'=>'JRPG dengan perjalanan epik dan sistem pertarungan inovatif.','developer'=>'Square Enix','year'=>2016,'age'=>'T'],
+      ['title'=>'Kingdom Hearts III','img'=>'images/kingdom-hearts-iii.jpg','genre'=>'Action-RPG','desc'=>'Petualangan kolaborasi Disney dan Square Enix dengan aksi seru.','developer'=>'Square Enix','year'=>2019,'age'=>'E10+'],
     ];
     
     $fallbackPS5 = [
-      ['title'=>'it takes two','img'=>'images/ittakestwo.jpg','genre'=>'Adventure','desc'=>'Ko-op puzzle platform yang kreatif.','developer'=>'Hazelight','year'=>2021,'age'=>'T'],
-      ['title'=>'NBA 2K25','img'=>'images/NBA.jpg','genre'=>'Sports','desc'=>'Basket generasi terbaru dengan grafis realistis.','developer'=>'Visual Concepts','year'=>2025,'age'=>'E'],
-      ['title'=>'Overcooked!','img'=>'images/overcooked.jpg','genre'=>'Party Simulation','desc'=>'Chaos dapur yang seru dimainkan bersama.','developer'=>'Ghost Town Games','year'=>2016,'age'=>'E'],
-      ['title'=>'GTA5','img'=>'images/gta5.jpg','genre'=>'Action','desc'=>'Open world penuh misi dan kebebasan.','developer'=>'Rockstar North','year'=>2013,'age'=>'M'],
-      ['title'=>'downhills','img'=>'images/downhills.jpg','genre'=>'Racing','desc'=>'Balap sepeda turun gunung menegangkan.','developer'=>'Indie Studio','year'=>2024,'age'=>'E'],
-      ['title'=>'FC25','img'=>'images/fc25.jpg','genre'=>'Sports','desc'=>'Sepak bola rasa baru dengan gameplay cepat.','developer'=>'EA','year'=>2025,'age'=>'E'],
+      ['title'=>'NBA 2K25','img'=>'images/nba-2k25.jpg','genre'=>'Sports','desc'=>'Simulasi bola basket dengan grafis next-gen dan gameplay realistis.','developer'=>'Visual Concepts','year'=>2024,'age'=>'E'],
+      ['title'=>'FC 25','img'=>'images/fc-25.jpg','genre'=>'Sports','desc'=>'Game sepak bola musiman dengan roaster pemain terbaru.','developer'=>'EA Sports','year'=>2024,'age'=>'E'],
+      ['title'=>'Madden NFL 25','img'=>'images/madden-nfl-25.jpg','genre'=>'Sports','desc'=>'Simulasi American Football dengan grafis realistis dan gameplay mendalam.','developer'=>'EA Sports','year'=>2024,'age'=>'E'],
+      ['title'=>'Astro\'s Playroom','img'=>'images/astros-playroom.jpg','genre'=>'Platformer','desc'=>'Platformer imajinatif yang memamerkan fitur DualSense PS5.','developer'=>'Team Asobi','year'=>2020,'age'=>'E'],
+      ['title'=>'It Takes Two','img'=>'images/it-takes-two.jpg','genre'=>'Adventure','desc'=>'Game co-op kreatif dengan mekanik gameplay yang berubah setiap chapter.','developer'=>'Hazelight Studios','year'=>2021,'age'=>'T'],
+      ['title'=>'Overcooked! 2','img'=>'images/overcooked-2.jpg','genre'=>'Party Simulation','desc'=>'Game memasak kooperatif yang seru dan penuh tawa.','developer'=>'Ghost Town Games','year'=>2018,'age'=>'E'],
+      ['title'=>'Spider-Man: Miles Morales','img'=>'images/spider-man-miles-morales.jpg','genre'=>'Action-Adventure','desc'=>'Petualangan Spider-Man dengan cerita baru dan kota yang indah.','developer'=>'Insomniac Games','year'=>2020,'age'=>'T'],
+      ['title'=>'God of War Ragnarök','img'=>'images/god-of-war-ragnarok.jpg','genre'=>'Action-Adventure','desc'=>'Aksi mitologi Nordic dengan cerita epik dan gameplay spektakuler.','developer'=>'Santa Monica Studio','year'=>2022,'age'=>'M'],
+      ['title'=>'Hogwarts Legacy','img'=>'images/hogwarts-legacy.jpg','genre'=>'Action-RPG','desc'=>'RPG Harry Potter dengan eksplorasi Hogwarts dan sihir spektakuler.','developer'=>'Avalanche Software','year'=>2023,'age'=>'T'],
+      ['title'=>'Elden Ring','img'=>'images/elden-ring.jpg','genre'=>'Action-RPG','desc'=>'Action RPG challenging dengan dunia open-world menakjubkan.','developer'=>'FromSoftware','year'=>2022,'age'=>'M'],
+      ['title'=>'Starfield','img'=>'images/starfield.jpg','genre'=>'Action-RPG','desc'=>'RPG sci-fi epik dengan eksplorasi galaksi dan pertualangan luas.','developer'=>'Bethesda Game Studios','year'=>2023,'age'=>'M'],
+      ['title'=>'Final Fantasy XVI','img'=>'images/final-fantasy-xvi.jpg','genre'=>'Action-RPG','desc'=>'JRPG aksi dengan cerita mendalam dan pertempuran spektakuler.','developer'=>'Square Enix','year'=>2023,'age'=>'M'],
     ];
 
     // Gunakan data dari database jika ada, jika tidak gunakan fallback
@@ -59,20 +70,20 @@
           <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
             <div class="card card-dark h-100">
               <div class="ratio ratio-16x9 rounded-top overflow-hidden">
-                <img src="{{ asset($game['img'] ?? $game->image ?? 'images/placeholder-640x360.jpg') }}" alt="Sampul {{ $game['title'] ?? $game->title ?? 'Game' }}" class="object-fit-cover" onerror="this.src='{{ asset('images/placeholder-640x360.jpg') }}'">
+                <img src="{{ asset($game['img'] ?? $game->cover ?? 'images/placeholder-640x360.jpg') }}" alt="Sampul {{ $game['title'] ?? $game->title ?? 'Game' }}" class="object-fit-cover" onerror="this.src='{{ asset('images/placeholder-640x360.jpg') }}'">
               </div>
               <div class="card-body">
-                <span class="badge badge-outline mb-2">{{ $game['genre'] ?? $game->genre ?? 'Genre' }}</span>
+                <span class="badge badge-outline mb-2">{{ $game['genre'] ?? (is_array($game['genres'] ?? $game->genres) ? implode(', ', $game['genres'] ?? $game->genres) : 'Genre') }}</span>
                 <h3 class="h6 fw-semibold mb-2 text-high-contrast">{{ $game['title'] ?? $game->title ?? 'Game' }}</h3>
                 <button
                   class="btn btn-outline-accent w-100"
                   data-bs-toggle="modal"
                   data-bs-target="#gameModal"
                   data-title="{{ $game['title'] ?? $game->title ?? '' }}"
-                  data-genre="{{ $game['genre'] ?? $game->genre ?? '' }}"
-                  data-img="{{ asset($game['img'] ?? $game->image ?? 'images/placeholder-640x360.jpg') }}"
+                  data-genre="{{ $game['genre'] ?? (is_array($game['genres'] ?? $game->genres) ? implode(', ', $game['genres'] ?? $game->genres) : 'Genre') }}"
+                  data-img="{{ asset($game['img'] ?? $game->cover ?? 'images/placeholder-640x360.jpg') }}"
                   data-platform="PS4"
-                  data-description="{{ $game['desc'] ?? $game->description ?? '' }}"
+                  data-description="{{ $game['desc'] ?? $game->storyline ?? '' }}"
                   data-developer="{{ $game['developer'] ?? $game->developer ?? '-' }}"
                   data-year="{{ $game['year'] ?? $game->release_year ?? '-' }}"
                   data-age="{{ $game['age'] ?? $game->age_rating ?? '-' }}"
@@ -98,20 +109,20 @@
           <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
             <div class="card card-dark h-100">
               <div class="ratio ratio-16x9 rounded-top overflow-hidden">
-                <img src="{{ asset($game['img'] ?? $game->image ?? 'images/placeholder-640x360.jpg') }}" alt="Sampul {{ $game['title'] ?? $game->title ?? 'Game' }}" class="object-fit-cover" onerror="this.src='{{ asset('images/placeholder-640x360.jpg') }}'">
+                <img src="{{ asset($game['img'] ?? $game->cover ?? 'images/placeholder-640x360.jpg') }}" alt="Sampul {{ $game['title'] ?? $game->title ?? 'Game' }}" class="object-fit-cover" onerror="this.src='{{ asset('images/placeholder-640x360.jpg') }}'">
               </div>
               <div class="card-body">
-                <span class="badge badge-outline mb-2">{{ $game['genre'] ?? $game->genre ?? 'Genre' }}</span>
+                <span class="badge badge-outline mb-2">{{ $game['genre'] ?? (is_array($game['genres'] ?? $game->genres) ? implode(', ', $game['genres'] ?? $game->genres) : 'Genre') }}</span>
                 <h3 class="h6 fw-semibold mb-2 text-high-contrast">{{ $game['title'] ?? $game->title ?? 'Game' }}</h3>
                 <button
                   class="btn btn-outline-accent w-100"
                   data-bs-toggle="modal"
                   data-bs-target="#gameModal"
                   data-title="{{ $game['title'] ?? $game->title ?? '' }}"
-                  data-genre="{{ $game['genre'] ?? $game->genre ?? '' }}"
-                  data-img="{{ asset($game['img'] ?? $game->image ?? 'images/placeholder-640x360.jpg') }}"
+                  data-genre="{{ $game['genre'] ?? (is_array($game['genres'] ?? $game->genres) ? implode(', ', $game['genres'] ?? $game->genres) : 'Genre') }}"
+                  data-img="{{ asset($game['img'] ?? $game->cover ?? 'images/placeholder-640x360.jpg') }}"
                   data-platform="PS5"
-                  data-description="{{ $game['desc'] ?? $game->description ?? '' }}"
+                  data-description="{{ $game['desc'] ?? $game->storyline ?? '' }}"
                   data-developer="{{ $game['developer'] ?? $game->developer ?? '-' }}"
                   data-year="{{ $game['year'] ?? $game->release_year ?? '-' }}"
                   data-age="{{ $game['age'] ?? $game->age_rating ?? '-' }}"

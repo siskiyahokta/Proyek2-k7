@@ -9,6 +9,7 @@ use App\Http\Controllers\ConsoleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\AdminMiddleware;
 
+// === PUBLIC ROUTES ===
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/games', [GameController::class, 'index'])->name('games.index');
@@ -19,6 +20,7 @@ Route::post('/rental/payment-token', [RentalController::class, 'paymentToken'])-
 
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 
+// === AUTH ROUTES ===
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
@@ -27,22 +29,30 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware([AdminMiddleware::class])->prefix('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+// === ADMIN DASHBOARD & CRUD (Hanya Admin) ===
+Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+
+    // Dashboard Utama
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
     // Games CRUD
-    Route::get('/games', [GameController::class, 'adminIndex'])->name('admin.games.index');
-    Route::get('/games/create', [GameController::class, 'create'])->name('admin.games.create');
-    Route::post('/games', [GameController::class, 'store'])->name('admin.games.store');
-    Route::get('/games/{game}/edit', [GameController::class, 'edit'])->name('admin.games.edit');
-    Route::put('/games/{game}', [GameController::class, 'update'])->name('admin.games.update');
-    Route::delete('/games/{game}', [GameController::class, 'destroy'])->name('admin.games.destroy');
+    Route::get('/games', [GameController::class, 'adminIndex'])->name('games.index');
+    Route::get('/games/create', [GameController::class, 'create'])->name('games.create');
+    Route::post('/games', [GameController::class, 'store'])->name('games.store');
+    Route::get('/games/{game}/edit', [GameController::class, 'edit'])->name('games.edit');
+    Route::put('/games/{game}', [GameController::class, 'update'])->name('games.update');
+    Route::delete('/games/{game}', [GameController::class, 'destroy'])->name('games.destroy');
 
     // Consoles CRUD
-    Route::get('/consoles', [ConsoleController::class, 'adminIndex'])->name('admin.consoles.index');
-    Route::get('/consoles/create', [ConsoleController::class, 'create'])->name('admin.consoles.create');
-    Route::post('/consoles', [ConsoleController::class, 'store'])->name('admin.consoles.store');
-    Route::get('/consoles/{console}/edit', [ConsoleController::class, 'edit'])->name('admin.consoles.edit');
-    Route::put('/consoles/{console}', [ConsoleController::class, 'update'])->name('admin.consoles.update');
-    Route::delete('/consoles/{console}', [ConsoleController::class, 'destroy'])->name('admin.consoles.destroy');
+    Route::get('/consoles', [ConsoleController::class, 'adminIndex'])->name('consoles.index');
+    Route::get('/consoles/create', [ConsoleController::class, 'create'])->name('consoles.create');
+    Route::post('/consoles', [ConsoleController::class, 'store'])->name('consoles.store');
+    Route::get('/consoles/{console}/edit', [ConsoleController::class, 'edit'])->name('consoles.edit');
+    Route::put('/consoles/{console}', [ConsoleController::class, 'update'])->name('consoles.update');
+    Route::delete('/consoles/{console}', [ConsoleController::class, 'destroy'])->name('consoles.destroy');
+});
+
+// === FALLBACK ===
+Route::fallback(function () {
+    return redirect()->route('home');
 });

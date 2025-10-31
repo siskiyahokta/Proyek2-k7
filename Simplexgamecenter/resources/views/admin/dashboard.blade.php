@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <!-- Stats cards -->
+  <!-- Stats Cards -->
   <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
       <div class="card card-dark h-100">
@@ -31,7 +31,7 @@
       <div class="card card-dark h-100">
         <div class="card-body">
           <div class="text-muted small">Users</div>
-          <div class="h3 m-0 text-high-contrast">{{ $stats['users'] }}</div>
+          <div class="h3 m-0 text-high-contrast">{{ $stats['total_users'] }}</div>
         </div>
       </div>
     </div>
@@ -46,16 +46,16 @@
     <div class="col-6 col-md-3">
       <div class="card card-dark h-100">
         <div class="card-body">
-          <div class="text-muted small">Rentals</div>
-          <div class="h3 m-0 text-high-contrast">{{ $stats['rentals'] }}</div>
+          <div class="text-muted small">Total Rentals</div>
+          <div class="h3 m-0 text-high-contrast">{{ $stats['total_rentals'] }}</div>
         </div>
       </div>
     </div>
     <div class="col-6 col-md-3">
       <div class="card card-dark h-100">
         <div class="card-body">
-          <div class="text-muted small">Payments</div>
-          <div class="h3 m-0 text-high-contrast">{{ $stats['payments'] }}</div>
+          <div class="text-muted small">Pending Rentals</div>
+          <div class="h3 m-0 text-warning">{{ $stats['pending_rentals'] }}</div>
         </div>
       </div>
     </div>
@@ -63,9 +63,19 @@
       <div class="card card-dark h-100">
         <div class="card-body">
           <div class="text-muted small">Active Rentals</div>
-          <div class="h3 m-0 text-accent">{{ $stats['active_rentals'] }}</div>
+          <div class="h3 m-0 text-success">{{ $stats['active_rentals'] }}</div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Chart: Pendapatan 7 Hari -->
+  <div class="card card-dark mb-4">
+    <div class="card-header">
+      <h2 class="h6 m-0">Pendapatan 7 Hari Terakhir</h2>
+    </div>
+    <div class="card-body">
+      <canvas id="revenueChart" height="100"></canvas>
     </div>
   </div>
 
@@ -82,6 +92,7 @@
               <tr>
                 <th>ID</th>
                 <th>Konsol</th>
+                <th>User</th>
                 <th>Durasi</th>
                 <th>Total</th>
                 <th>Status</th>
@@ -91,13 +102,21 @@
               @forelse ($latestRentals as $r)
                 <tr>
                   <td>#{{ $r->id }}</td>
-                  <td>{{ optional($r->console)->name }}</td>
+                  <td>{{ $r->console?->name ?? '—' }}</td>
+                  <td>{{ $r->user?->name ?? 'Guest' }}</td>
                   <td>{{ $r->duration_hours }} jam</td>
                   <td>Rp {{ number_format($r->total_price, 0, ',', '.') }}</td>
-                  <td><span class="badge bg-{{ $r->status === 'paid' ? 'success' : ($r->status === 'pending' ? 'warning' : 'secondary') }}">{{ $r->status }}</span></td>
+                  <td>
+                    <span class="badge bg-{{ 
+                      $r->status === 'paid' ? 'success' : 
+                      ($r->status === 'pending' ? 'warning' : 'secondary') 
+                    }}">
+                      {{ ucfirst($r->status) }}
+                    </span>
+                  </td>
                 </tr>
               @empty
-                <tr><td colspan="5" class="text-center text-muted">Belum ada data.</td></tr>
+                <tr><td colspan="6" class="text-center text-muted py-3">Belum ada data.</td></tr>
               @endforelse
             </tbody>
           </table>
@@ -117,22 +136,34 @@
               <tr>
                 <th>ID</th>
                 <th>Rental</th>
-                <th>Amount</th>
-                <th>Method</th>
+                <th>Konsol</th>
+                <th>Jumlah</th>
+                <th>Metode</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
               @forelse ($latestPayments as $p)
+                @php
+                  $rental = $p->rental;
+                @endphp
                 <tr>
                   <td>#{{ $p->id }}</td>
-                  <td>#{{ optional($p->rental)->id }}</td>
-                  <td>Rp {{ number_format($p->amount, 0, ',', '.') }}</td>
-                  <td>{{ $p->payment_method }}</td>
-                  <td><span class="badge bg-{{ $p->status === 'completed' ? 'success' : ($p->status === 'pending' ? 'warning' : 'danger') }}">{{ $p->status }}</span></td>
+                  <td>#{{ $rental?->id ?? '-' }}</td>
+                  <td>{{ $rental?->console?->name ?? '-' }}</td>
+                  <td>Rp {{ number_format($rental?->total_price ?? 0, 0, ',', '.') }}</td>
+                  <td class="text-capitalize">{{ $p->provider }}</td>
+                  <td>
+                    <span class="badge bg-{{ 
+                      $p->status === 'paid' ? 'success' : 
+                      ($p->status === 'pending' ? 'warning' : 'danger') 
+                    }}">
+                      {{ ucfirst($p->status) }}
+                    </span>
+                  </td>
                 </tr>
               @empty
-                <tr><td colspan="5" class="text-center text-muted">Belum ada data.</td></tr>
+                <tr><td colspan="6" class="text-center text-muted py-3">Belum ada data.</td></tr>
               @endforelse
             </tbody>
           </table>
@@ -140,4 +171,51 @@
       </div>
     </div>
   </div>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const ctx = document.getElementById('revenueChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: @json($dates),
+          datasets: [{
+            label: 'Pendapatan (Rp)',
+            data: @json($revenues),
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            tension: 0.4,
+            fill: true,
+            pointBackgroundColor: '#6366f1',
+            pointRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return 'Rp ' + context.parsed.y.toLocaleString('id-ID');
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return 'Rp ' + value.toLocaleString('id-ID');
+                }
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
 @endsection

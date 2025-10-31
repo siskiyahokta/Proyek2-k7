@@ -6,12 +6,14 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Http\\Controllers\\AdminController' => $baseDir . '/app/Http/Controllers/AdminController.php',
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\ConsoleController' => $baseDir . '/app/Http/Controllers/ConsoleController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\GameController' => $baseDir . '/app/Http/Controllers/GameController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\RentalController' => $baseDir . '/app/Http/Controllers/RentalController.php',
+    'App\\Http\\Middleware\\AdminMiddleware' => $baseDir . '/app/Http/Middleware/AdminMiddleware.php',
     'App\\Models\\Console' => $baseDir . '/app/Models/Console.php',
     'App\\Models\\Game' => $baseDir . '/app/Models/Game.php',
     'App\\Models\\Payment' => $baseDir . '/app/Models/Payment.php',
@@ -139,6 +141,7 @@ return array(
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
     'Database\\Seeders\\ConsoleSeeder' => $baseDir . '/database/seeders/ConsoleSeeder.php',
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
+    'Database\\Seeders\\UserSeeder' => $baseDir . '/database/seeders/UserSeeder.php',
     'DateError' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
     'DateException' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
     'DateInvalidOperationException' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
