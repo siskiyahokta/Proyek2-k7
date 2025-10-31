@@ -41,11 +41,11 @@
                 <ul class="list-unstyled small">
                     <li class="mb-2">
                         <span class="text-muted">📍 Alamat:</span><br>
-                        <span class="text-muted small">Jl. Gaming Center No. 123, Jakarta Selatan</span>
+                        <span class="text-muted small">Jl. Siliwangi Kel Paoman, Indramayu 45211</span>
                     </li>
                     <li class="mb-2">
                         <span class="text-muted">📞 Telepon:</span><br>
-                        <a href="tel:+62812345678" class="link-accent text-decoration-none">+62 812 345 678</a>
+                        <a href="tel:+625835308888" class="link-accent text-decoration-none">+62 583 530 8888</a>
                     </li>
                     <li class="mb-2">
                         <span class="text-muted">📧 Email:</span><br>
@@ -64,12 +64,7 @@
                     <li class="mb-2">
                         <span class="fw-bold">Sabtu - Minggu:</span><br>
                         09:00 - 23:00 WIB
-                    </li>
-                    <li class="mb-2">
-                        <span class="fw-bold">Hari Libur:</span><br>
-                        09:00 - 21:00 WIB
-                    </li>
-                </ul>
+                    
             </div>
         </div>
 
@@ -83,7 +78,7 @@
             </div>
             <div class="col-md-6 text-md-end">
                 <p class="text-muted small mb-0">
-                    Dibuat dengan ❤️ oleh <span class="gradient-text fw-bold">Fasido, Siskiyah & Alda</span>
+                    Dibuat oleh <span class="gradient-text fw-bold">Fasido, Siskiyah & Alda</span>
                 </p>
             </div>
         </div>
