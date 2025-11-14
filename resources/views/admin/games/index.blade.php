@@ -47,7 +47,10 @@
                                         <td>{{ $games->firstItem() + $index }}</td>
                                         <td>
                                             @if($game->cover)
-                                                <img src="{{ asset($game->cover) }}" alt="cover" style="height: 50px; border-radius: 4px;">
+                                                {{-- ✅ perbaikan path storage --}}
+                                                <img src="{{ asset('storage/covers/' . basename($game->cover)) }}" 
+                                                     alt="cover" 
+                                                     style="height: 50px; border-radius: 4px;">
                                             @else
                                                 <span class="text-muted">-</span>
                                             @endif

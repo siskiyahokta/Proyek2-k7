@@ -21,7 +21,9 @@ class GameController extends Controller
             $map = function ($g) {
                 return [
                     'title' => $g->title,
-                    'img' => $g->cover ? asset($g->cover) : asset('images/placeholder-640x360.jpg'),
+                    'img' => $g->cover
+                        ? asset(str_replace('public/', '', ltrim($g->cover, '/')))
+                        : asset('images/placeholder-640x360.jpg'),
                     'genre' => is_array($g->genres) && count($g->genres) ? $g->genres[0] : '-',
                     'desc' => $g->storyline ?? '-',
                     'developer' => $g->developer ?? '-',
@@ -32,16 +34,14 @@ class GameController extends Controller
             };
 
             $ps4Games = $all->filter(function ($g) {
-    $platforms = is_array($g->platforms) ? $g->platforms : json_decode($g->platforms, true);
-    return is_array($platforms) && in_array('PS4', $platforms);
-})->map($map)->values();
+                $platforms = is_array($g->platforms) ? $g->platforms : json_decode($g->platforms, true);
+                return is_array($platforms) && in_array('PS4', $platforms);
+            })->map($map)->values();
 
-$ps5Games = $all->filter(function ($g) {
-    $platforms = is_array($g->platforms) ? $g->platforms : json_decode($g->platforms, true);
-    return is_array($platforms) && in_array('PS5', $platforms);
-})->map($map)->values();
-
-            
+            $ps5Games = $all->filter(function ($g) {
+                $platforms = is_array($g->platforms) ? $g->platforms : json_decode($g->platforms, true);
+                return is_array($platforms) && in_array('PS5', $platforms);
+            })->map($map)->values();
 
             return view('games.index', compact('ps4Games', 'ps5Games'));
         } catch (QueryException $e) {
@@ -66,16 +66,19 @@ $ps5Games = $all->filter(function ($g) {
                 'publisher' => $g->publisher,
                 'genres' => is_array($g->genres) ? $g->genres : [],
                 'storyline' => $g->storyline,
-                'release_year' => $g->release_year
-                ,
+                'release_year' => $g->release_year,
                 'age_rating' => $g->age_rating,
                 'platforms' => is_array($g->platforms) ? $g->platforms : [],
                 'modes' => is_array($g->modes) ? $g->modes : [],
                 'size_gb' => $g->size_gb,
                 'languages' => is_array($g->languages) ? $g->languages : [],
                 'rating' => $g->rating,
-                'cover' => $g->cover ? asset($g->cover) : asset('images/placeholder-640x360.jpg'),
-                'screenshots' => $g->screenshots ? array_map('asset', json_decode($g->screenshots, true)) : [],
+                'cover' => $g->cover
+                    ? asset(str_replace('public/', '', ltrim($g->cover, '/')))
+                    : asset('images/placeholder-640x360.jpg'),
+                'screenshots' => $g->screenshots
+                    ? array_map(fn ($path) => asset(str_replace('public/', '', ltrim($path, '/'))), json_decode($g->screenshots, true))
+                    : [],
             ];
 
             return view('games.show', compact('game', 'slug'));
@@ -97,8 +100,8 @@ $ps5Games = $all->filter(function ($g) {
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('developer', 'like', "%{$search}%")
-                  ->orWhere('slug', 'like', "%{$search}%");
+                    ->orWhere('developer', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%");
             });
         }
 
