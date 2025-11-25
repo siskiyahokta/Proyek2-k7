@@ -47,7 +47,6 @@
                                         <td>{{ $games->firstItem() + $index }}</td>
                                         <td>
                                             @if($game->cover)
-                                                {{-- ✅ perbaikan path storage --}}
                                                 <img src="{{ asset('storage/covers/' . basename($game->cover)) }}" 
                                                      alt="cover" 
                                                      style="height: 50px; border-radius: 4px;">
@@ -76,9 +75,12 @@
                                         </td>
                                         <td>{{ $game->rating ?? '-' }}</td>
                                         <td class="d-flex gap-2">
+                                            {{-- Tombol Edit --}}
                                             <a href="{{ route('admin.games.edit', $game) }}" class="btn btn-warning btn-sm">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
+
+                                            {{-- Tombol Hapus --}}
                                             <form action="{{ route('admin.games.destroy', $game) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus game ini?')">
                                                 @csrf
                                                 @method('DELETE')
@@ -86,6 +88,11 @@
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </form>
+
+                                            {{-- Tombol Detail (otomatis pakai slug) --}}
+                                            <a href="{{ url('games/' . $game->slug) }}" class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

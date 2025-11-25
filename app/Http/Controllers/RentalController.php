@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Console;
 use Illuminate\Database\QueryException;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class RentalController extends Controller
 {
@@ -49,100 +51,82 @@ class RentalController extends Controller
 
     public function paymentToken(Request $request)
     {
+        // Cek konfigurasi MIDTRANS
+        if (empty(config('midtrans.serverKey')) || empty(config('midtrans.clientKey'))) {
+            return response()->json([
+                'ok' => false,
+                'message' => 'MIDTRANS belum dikonfigurasi.',
+            ], 500);
+        }
+
+        // Validasi input
         $data = $request->validate([
             'console_id' => 'required|integer',
             'duration'   => 'required|integer|min:1|max:12',
         ]);
 
+        // Ambil data konsol
         $consoles = collect($this->getConsoles())->keyBy('id');
+
         if (!$consoles->has($data['console_id'])) {
             return response()->json(['ok' => false, 'message' => 'Konsol tidak ditemukan.'], 404);
         }
 
         $console = $consoles[$data['console_id']];
+
         if (($console['status'] ?? 'available') !== 'available') {
             return response()->json(['ok' => false, 'message' => 'Konsol sedang disewa.'], 422);
         }
 
-        $hourly = (int) ($console['hourly_rate'] ?? 0);
+        // Hitung harga
+        $hourly  = (int) $console['hourly_rate'];
         $duration = (int) $data['duration'];
         $grossAmount = $hourly * $duration;
 
-        $serverKey = env('MIDTRANS_SERVER_KEY');
-        $clientKey = env('MIDTRANS_CLIENT_KEY');
-        $isProduction = (bool) env('MIDTRANS_IS_PRODUCTION', false);
+        // Setup MIDTRANS
+        Config::$serverKey    = config('midtrans.serverKey');
+        Config::$clientKey    = config('midtrans.clientKey');
+        Config::$isProduction = config('midtrans.isProduction');
+        Config::$isSanitized  = true;
+        Config::$is3ds        = true;
 
-        if ($serverKey && $clientKey) {
-            $baseUrl = $isProduction
-                ? 'https://app.midtrans.com/snap/v1/transactions'
-                : 'https://app.sandbox.midtrans.com/snap/v1/transactions';
-
-            $orderId = 'order-' . uniqid();
-            $payload = [
-                'transaction_details' => [
-                    'order_id'      => $orderId,
-                    'gross_amount'  => $grossAmount,
-                ],
-                'item_details' => [[
+        // Parameter transaksi
+        $params = [
+            'transaction_details' => [
+                'order_id'     => 'order-' . uniqid(),
+                'gross_amount' => $grossAmount,
+            ],
+            'item_details' => [
+                [
                     'id'       => (string) $console['id'],
                     'price'    => $hourly,
                     'quantity' => $duration,
                     'name'     => $console['type'] . ' ' . $console['name'],
-                ]],
-                'credit_card' => [
-                    'secure' => true,
                 ],
-            ];
+            ],
+            'customer_details' => [
+                'first_name' => 'User',
+            ],
+        ];
 
-            $ch = curl_init($baseUrl);
-            curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST           => true,
-                CURLOPT_HTTPHEADER     => [
-                    'Content-Type: application/json',
-                    'Accept: application/json',
-                    'Authorization: Basic ' . base64_encode($serverKey . ':'),
-                ],
-                CURLOPT_POSTFIELDS     => json_encode($payload),
-                CURLOPT_TIMEOUT        => 20,
-            ]);
-            $resp = curl_exec($ch);
-            $err  = curl_error($ch);
-            $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-            curl_close($ch);
-
-            if ($err) {
-                return response()->json([
-                    'ok' => false,
-                    'message' => 'Gagal menghubungi Midtrans: ' . $err,
-                ], 500);
-            }
-
-            $json = json_decode($resp, true);
-            if ($code >= 200 && $code < 300 && isset($json['token'])) {
-                return response()->json([
-                    'ok' => true,
-                    'mode' => $isProduction ? 'production' : 'sandbox',
-                    'token' => $json['token'],
-                    'order_id' => $orderId,
-                    'gross_amount' => $grossAmount,
-                ]);
-            }
+        try {
+            $snapToken = Snap::getSnapToken($params);
 
             return response()->json([
-                'ok' => false,
-                'message' => 'Gagal mendapatkan token pembayaran.',
-                'detail' => $json,
-            ], 500);
-        }
+                'ok' => true,
+                'token' => $snapToken,
+                'gross_amount' => $grossAmount,
+            ]);
 
-        return response()->json([
-            'ok' => true,
-            'mode' => 'mock',
-            'token' => 'mock-token-' . uniqid(),
-            'order_id' => 'order-' . uniqid(),
-            'gross_amount' => $grossAmount,
-            'note' => 'MIDTRANS_SERVER_KEY/CLIENT_KEY belum diset; ini token mock.',
-        ]);
+     } catch (\Exception $e) {
+
+    \Log::error("MIDTRANS ERROR: " . $e->getMessage());
+
+    return response()->json([
+        'ok' => false,
+        'message' => 'Gagal membuat token.',
+        'error'   => $e->getMessage(),
+    ], 500);
+}
     }
 }
