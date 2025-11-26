@@ -6,6 +6,10 @@
     <div class="d-flex gap-2">
       <a href="{{ route('admin.games.index') }}" class="btn btn-outline-accent btn-sm">Kelola Game</a>
       <a href="{{ route('admin.consoles.index') }}" class="btn btn-accent btn-sm">Kelola Konsol</a>
+       <a href="{{ route('admin.about.edit') }}" class="btn btn-warning btn-sm">Edit About</a>
+
+
+
     </div>
   </div>
 

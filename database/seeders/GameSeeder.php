@@ -4,16 +4,13 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Game; // Pastikan Anda memiliki model Game
+use App\Models\Game; 
 
 class GameSeeder extends Seeder
 {
     public function run()
     {
-        // 1. Matikan Foreign Key Checks
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        // 2. Bersihkan tabel
         DB::table('games')->truncate();
 
         $games = [
@@ -23,7 +20,6 @@ class GameSeeder extends Seeder
                 'slug' => 'it-takes-two',
                 'developer' => 'Hazelight Studios',
                 'publisher' => 'Electronic Arts (EA Originals)',
-                // Perbaikan: JSON kini disimpan sebagai string PHP array
                 'genres' => '["Action","Adevnture"]',
                 'storyline' => 'It Takes Two mengikuti kisah sepasang suami istri, Cody dan May, yang sedang dalam proses perceraian hingga secara ajaib berubah menjadi boneka kecil akibat air mata putri mereka, Rose.
 Untuk kembali ke tubuh asli mereka, keduanya harus bekerja sama melewati berbagai dunia fantasi penuh rintangan dan teka-teki kreatif. Dengan gameplay yang sepenuhnya berfokus pada kerja sama, game ini menawarkan pengalaman emosional, lucu, dan menantang yang hanya bisa diselesaikan bersama.',

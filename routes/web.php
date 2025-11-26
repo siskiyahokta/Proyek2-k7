@@ -7,6 +7,7 @@ use App\Http\Controllers\RentalController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConsoleController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AboutController;
 use App\Http\Middleware\AdminMiddleware;
 
 // === PUBLIC ROUTES ===
@@ -18,9 +19,10 @@ Route::get('/games/{slug}', [GameController::class, 'show'])->name('games.show')
 Route::get('/rental', [RentalController::class, 'index'])->name('rental.index');
 Route::post('/rental/payment-token', [RentalController::class, 'paymentToken'])->name('rental.payment-token');
 
-Route::get('/about', [HomeController::class, 'about'])->name('about');
+// ABOUT PUBLIC
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-// === AUTH ROUTES ===
+// AUTH
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
@@ -29,11 +31,18 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// === ADMIN DASHBOARD & CRUD (Hanya Admin) ===
-Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+// === ADMIN ROUTES ===
+Route::middleware([AdminMiddleware::class])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-    // Dashboard Utama
+    // DASHBOARD
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+
+    // ABOUT ADMIN (edit halaman about)
+    Route::get('/about', [AboutController::class, 'edit'])->name('about.edit');
+    Route::post('/about', [AboutController::class, 'update'])->name('about.update');
 
     // Games CRUD
     Route::get('/games', [GameController::class, 'adminIndex'])->name('games.index');
@@ -43,16 +52,17 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
     Route::put('/games/{game}', [GameController::class, 'update'])->name('games.update');
     Route::delete('/games/{game}', [GameController::class, 'destroy'])->name('games.destroy');
 
-    // Consoles CRUD
+    // Console CRUD
     Route::get('/consoles', [ConsoleController::class, 'adminIndex'])->name('consoles.index');
     Route::get('/consoles/create', [ConsoleController::class, 'create'])->name('consoles.create');
     Route::post('/consoles', [ConsoleController::class, 'store'])->name('consoles.store');
     Route::get('/consoles/{console}/edit', [ConsoleController::class, 'edit'])->name('consoles.edit');
     Route::put('/consoles/{console}', [ConsoleController::class, 'update'])->name('consoles.update');
     Route::delete('/consoles/{console}', [ConsoleController::class, 'destroy'])->name('consoles.destroy');
+
 });
 
-// === FALLBACK ===
+// FALLBACK
 Route::fallback(function () {
     return redirect()->route('home');
 });

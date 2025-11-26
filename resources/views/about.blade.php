@@ -6,6 +6,12 @@
   <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 15, 40, 0.8) 100%);"></div>
   
   <div class="position-relative z-index-1">
+        <!-- About content from database -->
+    @if(isset($about) && $about->content)
+      <div class="container text-white mb-5 mt-4">
+          {!! $about->content !!}
+      </div>
+    @endif
     <!-- Hero Section with Animation -->
     <div class="text-center mb-5" style="animation: fadeInDown 1s ease-in-out;">
       <h1 class="display-4 fw-bold text-white mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-size: 3.5rem;">
