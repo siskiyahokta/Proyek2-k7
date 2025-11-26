@@ -9,6 +9,9 @@ use App\Http\Controllers\ConsoleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\AdminMiddleware;
 
+
+
+
 // === PUBLIC ROUTES ===
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -56,3 +59,4 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
 Route::fallback(function () {
     return redirect()->route('home');
 });
+

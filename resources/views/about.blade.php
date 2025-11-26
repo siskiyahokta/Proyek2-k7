@@ -115,7 +115,7 @@
               <h4 class="fw-bold text-white ms-3 mb-0">Visi Kami</h4>
             </div>
             <p class="text-white-50" style="line-height: 1.8;">
-              Menjadi <strong class="text-white">pusat gaming #1 di Indonesia</strong> yang dikenal dengan koleksi lengkap, 
+              Menjadi <strong class="text-white">pusat gaming #1 di Indramayu</strong> yang dikenal dengan koleksi lengkap, 
               layanan berkualitas, dan komunitas yang aktif. Kami ingin setiap gamer merasa seperti di rumah sendiri.
             </p>
           </div>
@@ -190,34 +190,7 @@
       </div>
     </div>
 
-    <!-- Kerja Sama / Partnership -->
-    <div class="mb-5 text-center">
-      <div class="mb-4">
-        <span class="badge px-3 py-2 mb-3" style="background: linear-gradient(135deg, #00BFFF, #FF007F); font-size: 0.9rem;">
-          PARTNER TERPERCAYA
-        </span>
-        <h2 class="fw-bold text-white" style="font-size: 2.5rem;">Kerja Sama</h2>
-      </div>
-      
-      <div class="row justify-content-center g-4">
-        <div class="col-md-3">
-          <div class="d-flex align-items-center justify-content-center p-4" style="background: rgba(255, 255, 255, 0.95); border-radius: 15px; height: 150px; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 30px rgba(0,191,255,0.3)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
-            <img src="{{ asset('images/.jpg') }}" alt="Politeknik Negeri Indramayu" class="img-fluid" style="max-height: 90px; max-width: 100%; object-fit: contain;">
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="d-flex align-items-center justify-content-center p-4" style="background: rgba(255, 255, 255, 0.95); border-radius: 15px; height: 150px; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 30px rgba(255,0,127,0.3)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
-            <img src="{{ asset('images/bca-logo.png') }}" alt="PT. Bank Central Asia" class="img-fluid" style="max-height: 90px; max-width: 100%; object-fit: contain;">
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="d-flex align-items-center justify-content-center p-4" style="background: rgba(255, 255, 255, 0.95); border-radius: 15px; height: 150px; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 30px rgba(0,191,255,0.3)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
-            <img src="{{ asset('images/meta-logo.png') }}" alt="Meta" class="img-fluid" style="max-height: 90px; max-width: 100%; object-fit: contain;">
-          </div>
-        </div>
-      </div>
-    </div>
-
+   
     <!-- Nilai-Nilai Kami - Redesigned -->
     <div class="row justify-content-center">
       <div class="col-lg-10">
