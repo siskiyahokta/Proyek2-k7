@@ -12,7 +12,6 @@ use App\Http\Middleware\AdminMiddleware;
 
 // === PUBLIC ROUTES ===
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::get('/games', [GameController::class, 'index'])->name('games.index');
 Route::get('/games/{slug}', [GameController::class, 'show'])->name('games.show');
 
@@ -25,24 +24,18 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 // AUTH
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// === ADMIN ROUTES ===
+// === ADMIN ===
 Route::middleware([AdminMiddleware::class])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
 
-    // DASHBOARD
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
-
-    // ABOUT ADMIN (edit halaman about)
-    Route::get('/about', [AboutController::class, 'edit'])->name('about.edit');
-    Route::post('/about', [AboutController::class, 'update'])->name('about.update');
 
     // Games CRUD
     Route::get('/games', [GameController::class, 'adminIndex'])->name('games.index');
@@ -60,6 +53,9 @@ Route::middleware([AdminMiddleware::class])
     Route::put('/consoles/{console}', [ConsoleController::class, 'update'])->name('consoles.update');
     Route::delete('/consoles/{console}', [ConsoleController::class, 'destroy'])->name('consoles.destroy');
 
+    // ABOUT ADMIN
+    Route::get('/about', [AboutController::class, 'edit'])->name('about.edit');
+    Route::post('/about', [AboutController::class, 'update'])->name('about.update');
 });
 
 // FALLBACK

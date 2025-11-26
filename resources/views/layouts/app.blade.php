@@ -40,6 +40,8 @@
     ></script>
 
     <script src="{{ asset('js/app.js') }}" defer></script>
+    @stack('scripts')
+  
 
     @if (env('MIDTRANS_CLIENT_KEY'))
       <script src="{{ env('MIDTRANS_IS_PRODUCTION', false) ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js' }}" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>

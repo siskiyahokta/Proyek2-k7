@@ -406,3 +406,389 @@ h5.section-title {
     --navbar-height: 96px;
   }
 }
+/* ===============================
+   Animated Background Particles
+   =============================== */
+.hero-bg-animation {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.hero-bg-animation .particle {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, #ff00cc, #3333ff);
+    border-radius: 50%;
+    opacity: 0.65;
+    filter: blur(1px);
+    animation: floatParticle 12s infinite ease-in-out;
+}
+
+.hero-bg-animation .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.hero-bg-animation .particle:nth-child(2) { left: 35%; top: 60%; animation-delay: 1s; }
+.hero-bg-animation .particle:nth-child(3) { left: 70%; top: 35%; animation-delay: 2s; }
+.hero-bg-animation .particle:nth-child(4) { left: 85%; top: 75%; animation-delay: 3s; }
+.hero-bg-animation .particle:nth-child(5) { left: 45%; top: 10%; animation-delay: 4s; }
+.hero-bg-animation .particle:nth-child(6) { left: 15%; top: 80%; animation-delay: 5s; }
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(-40px) scale(1.3) rotate(180deg);
+        opacity: 1;
+        filter: drop-shadow(0 0 12px rgba(255, 0, 200, 0.6));
+    }
+    100% {
+        transform: translateY(0) scale(1) rotate(360deg);
+        opacity: 0.4;
+    }
+}
+/* ============================================
+   ENHANCED SHADOW EFFECTS
+   ============================================ */
+.card-dark {
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-dark:hover {
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 0 80px rgba(102, 126, 234, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.btn {
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:hover {
+  box-shadow: 
+    0 8px 24px rgba(102, 126, 234, 0.5),
+    0 4px 8px rgba(102, 126, 234, 0.3),
+    0 0 40px rgba(102, 126, 234, 0.2);
+}
+
+.member-avatar {
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(102, 126, 234, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.stat-card {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.stat-card:hover::before {
+  left: 100%;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+/* ============================================
+   ENHANCED RANK GLOW EFFECTS
+   ============================================ */
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.95rem;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Rank 1 - Gold with intense glow */
+.rank-1 {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  animation: rank1Glow 2s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+
+.rank-1::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border-radius: 50%;
+  z-index: -1;
+  animation: rank1Ring 2s ease-in-out infinite;
+  filter: blur(8px);
+}
+
+.rank-1::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  border-radius: 50%;
+  animation: rank1Pulse 2s ease-in-out infinite;
+}
+
+@keyframes rank1Glow {
+  0%, 100% { 
+    box-shadow: 
+      0 0 20px rgba(255, 215, 0, 0.8),
+      0 0 40px rgba(255, 215, 0, 0.6),
+      0 0 60px rgba(255, 165, 0, 0.4),
+      inset 0 0 20px rgba(255, 255, 255, 0.3);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 
+      0 0 30px rgba(255, 215, 0, 1),
+      0 0 60px rgba(255, 215, 0, 0.8),
+      0 0 90px rgba(255, 165, 0, 0.6),
+      inset 0 0 30px rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes rank1Ring {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes rank1Pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* Rank 2 - Silver with elegant glow */
+.rank-2 {
+  background: linear-gradient(135deg, #E8E8E8, #C0C0C0);
+  color: #000;
+  animation: rank2Glow 2.5s ease-in-out infinite;
+  position: relative;
+}
+
+.rank-2::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(135deg, #E8E8E8, #C0C0C0);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(6px);
+  animation: rank2Ring 2.5s ease-in-out infinite;
+}
+
+@keyframes rank2Glow {
+  0%, 100% { 
+    box-shadow: 
+      0 0 15px rgba(192, 192, 192, 0.7),
+      0 0 30px rgba(192, 192, 192, 0.5),
+      0 0 45px rgba(192, 192, 192, 0.3),
+      inset 0 0 15px rgba(255, 255, 255, 0.4);
+  }
+  50% { 
+    box-shadow: 
+      0 0 25px rgba(192, 192, 192, 0.9),
+      0 0 50px rgba(192, 192, 192, 0.7),
+      0 0 75px rgba(192, 192, 192, 0.5),
+      inset 0 0 25px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes rank2Ring {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Rank 3 - Bronze with warm glow */
+.rank-3 {
+  background: linear-gradient(135deg, #CD7F32, #B87333);
+  color: #fff;
+  animation: rank3Glow 3s ease-in-out infinite;
+  position: relative;
+}
+
+.rank-3::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(135deg, #CD7F32, #B87333);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(5px);
+  animation: rank3Ring 3s ease-in-out infinite;
+}
+
+@keyframes rank3Glow {
+  0%, 100% { 
+    box-shadow: 
+      0 0 15px rgba(205, 127, 50, 0.7),
+      0 0 30px rgba(205, 127, 50, 0.5),
+      0 0 45px rgba(184, 115, 51, 0.3),
+      inset 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+  50% { 
+    box-shadow: 
+      0 0 25px rgba(205, 127, 50, 0.9),
+      0 0 50px rgba(205, 127, 50, 0.7),
+      0 0 75px rgba(184, 115, 51, 0.5),
+      inset 0 0 25px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes rank3Ring {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Hover effects for rank badges */
+.rank-badge:hover {
+  transform: scale(1.15) rotate(5deg);
+  filter: brightness(1.2);
+}
+
+.rank-1:hover {
+  animation: rank1GlowIntense 1s ease-in-out infinite;
+}
+
+@keyframes rank1GlowIntense {
+  0%, 100% { 
+    box-shadow: 
+      0 0 30px rgba(255, 215, 0, 1),
+      0 0 60px rgba(255, 215, 0, 0.9),
+      0 0 90px rgba(255, 165, 0, 0.7),
+      0 0 120px rgba(255, 165, 0, 0.5);
+  }
+  50% { 
+    box-shadow: 
+      0 0 40px rgba(255, 215, 0, 1),
+      0 0 80px rgba(255, 215, 0, 1),
+      0 0 120px rgba(255, 165, 0, 0.9),
+      0 0 160px rgba(255, 165, 0, 0.7);
+  }
+}
+
+.member-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.points-display {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #667eea;
+}
+
+.badge-status {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+/* ========== Particles Interactive (Canvas) ========== */
+.hero-bg-animation {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0; /* pastikan konten di atas */
+  pointer-events: none; /* jangan ganggu klik pada konten */
+}
+
+/* canvas full */
+.hero-bg-animation canvas#particles-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  pointer-events: none; /* biar mouse tetap diteruskan ke konten */
+}
+
+/* optional: style untuk partikel non-canvas fallback (kalau ada) */
+.hero-bg-animation .particle {
+  display: none;
+}
+
+/* pastikan hero content di atas canvas */
+.hero {
+  position: relative;
+  z-index: 1;
+}
+.hero .row {
+  position: relative;
+  z-index: 2;
+}

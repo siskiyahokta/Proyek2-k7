@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Panel - Simplex Game Center</title>
 
+
     <!-- Google Fonts: Orbitron (Cyberpunk) + Inter (Clean) -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
