@@ -12,8 +12,12 @@ class AboutPageSeeder extends Seeder
      */
     public function run()
 {
-    AboutPage::create([
-        'content' => '<h1>Simplex Game Center</h1><p>Deskripsi awal.</p>',
+    DB::table('about_page')->insert([
+            'title' => 'Judul Halaman About Awal',
+            'subtitle' => 'Ini adalah Subtitle',
+            'main_content' => 'Konten utama halaman ini.',
+            'created_at' => now(),
+            'updated_at' => now(),
     ]);
 }
 

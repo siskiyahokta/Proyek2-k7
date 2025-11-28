@@ -17,11 +17,18 @@ class AboutController extends Controller
 
 public function edit()
 {
-    $about = AboutPage::first();
+    
+    $about = AboutPage::firstOrCreate(
+        ['id' => 1], 
+        [            
+            'title' => 'Judul Halaman About Default',
+            'subtitle' => 'Sub Judul Halaman About Default',
+           
+        ]
+    );
 
     return view('admin.about.edit', compact('about'));
 }
-
 public function update(Request $request)
 {
     $about = AboutPage::first();

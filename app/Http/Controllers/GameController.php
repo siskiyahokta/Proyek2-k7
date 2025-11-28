@@ -76,10 +76,13 @@ class GameController extends Controller
                 'cover' => $g->cover
                     ? asset(str_replace('public/', '', ltrim($g->cover, '/')))
                     : asset('images/placeholder-640x360.jpg'),
-                'screenshots' => $g->screenshots
-                    ? array_map(fn ($path) => asset(str_replace('public/', '', ltrim($path, '/'))), json_decode($g->screenshots, true))
-                    : [],
-            ];
+                'screenshots' => is_array($g->screenshots)
+        ? array_map(
+            fn ($path) => asset(str_replace('public/', '', ltrim($path, '/'))), 
+            $g->screenshots // <--- INI ADALAH ARGUMEN KEDUA YANG DITAMBAHKAN
+          )
+        : [],
+];
 
             return view('games.show', compact('game', 'slug'));
         } catch (QueryException $e) {
