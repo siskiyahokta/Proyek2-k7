@@ -10,19 +10,14 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-       Schema::create('about_page', function (Blueprint $table) {
-            $table->id();
-            // Kolom untuk judul halaman
-            $table->string('title')->nullable(); 
-            // Kolom untuk konten utama halaman (menggunakan text karena panjang)
-            $table->text('content')->nullable(); 
-            // Kolom untuk gambar utama
-            $table->string('image_path')->nullable(); 
-            $table->timestamps(); // created_at dan updated_at
-        });
-    }
-
+{
+    Schema::create('about_page', function (Blueprint $table) {
+        $table->id();
+        $table->string('title'); // Masukkan codingan title dari file update ke sini
+        $table->text('content'); // (Contoh kolom lain)
+        $table->timestamps();
+    });
+}
     /**
      * Reverse the migrations.
      */

@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\GameController;
-use App\Http\Controllers\RentalController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ConsoleController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\GameController;
+use App\Http\Controllers\Web\RentalController;
+use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Admin\ConsoleController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Web\AboutController;
 use App\Http\Middleware\AdminMiddleware;
 
 // === PUBLIC ROUTES ===

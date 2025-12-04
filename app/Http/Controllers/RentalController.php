@@ -2,26 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Rental\CreatePaymentTokenRequest;
 use App\Models\Console;
+use App\Services\PaymentGateway\PaymentGateway;
+use App\Services\RentalService;
 use Illuminate\Database\QueryException;
-use Midtrans\Config;
-use Midtrans\Snap;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class RentalController extends Controller
 {
-    public function index()
+    public function __construct(
+        private readonly RentalService $rentalService,
+        private readonly PaymentGateway $paymentGateway
+    ) {}
+
+    public function index(): View
     {
         try {
-            $consoles = Console::orderBy('type')->orderBy('name')->get()
-                ->map(function ($c) {
+            $consoles = Console::orderBy('type')
+                ->orderBy('name')
+                ->get()
+                ->map(function (Console $c): array {
                     return [
-                        'id' => $c->id,
-                        'name' => $c->name,
-                        'type' => $c->type,
-                        'status' => $c->status,
-                        'hourly_rate' => (int) $c->hourly_rate,
-                        'rented_until' => $c->rented_until ? $c->rented_until->toIso8601String() : null,
+                        'id'           => $c->id,
+                        'name'         => $c->name,
+                        'type'         => $c->type,
+                        'status'       => $c->status,
+                        'hourly_rate'  => (int) $c->hourly_rate,
+                        'rented_until' => $c->rented_until?->toIso8601String(),
                     ];
                 })
                 ->toArray();
@@ -29,104 +38,58 @@ class RentalController extends Controller
             return view('rental', compact('consoles'));
         } catch (QueryException $e) {
             return view('errors.missing-tables', [
-                'table' => 'consoles',
+                'table'     => 'consoles',
                 'exception' => $e,
             ]);
         }
     }
 
-    private function getConsoles(): array
+    public function paymentToken(CreatePaymentTokenRequest $request): JsonResponse
     {
-        return Console::all()->map(function ($c) {
-            return [
-                'id' => $c->id,
-                'name' => $c->name,
-                'type' => $c->type,
-                'status' => $c->status,
-                'hourly_rate' => (int) $c->hourly_rate,
-                'rented_until' => $c->rented_until ? $c->rented_until->toIso8601String() : null,
-            ];
-        })->keyBy('id')->toArray();
-    }
+        $data = $request->validated();
 
-    public function paymentToken(Request $request)
-    {
-        // Cek konfigurasi MIDTRANS
-        if (empty(config('midtrans.serverKey')) || empty(config('midtrans.clientKey'))) {
+        $console = Console::findOrFail($data['console_id']);
+
+        if ($console->status !== 'available') {
             return response()->json([
-                'ok' => false,
-                'message' => 'MIDTRANS belum dikonfigurasi.',
-            ], 500);
+                'ok'      => false,
+                'message' => 'Konsol sedang disewa.',
+            ], 422);
         }
 
-        // Validasi input
-        $data = $request->validate([
-            'console_id' => 'required|integer',
-            'duration'   => 'required|integer|min:1|max:12',
-        ]);
+        $rental = $this->rentalService->createRental(
+            $console,
+            $data['duration'],
+            $request->user()?->id
+        );
 
-        // Ambil data konsol
-        $consoles = collect($this->getConsoles())->keyBy('id');
-
-        if (!$consoles->has($data['console_id'])) {
-            return response()->json(['ok' => false, 'message' => 'Konsol tidak ditemukan.'], 404);
-        }
-
-        $console = $consoles[$data['console_id']];
-
-        if (($console['status'] ?? 'available') !== 'available') {
-            return response()->json(['ok' => false, 'message' => 'Konsol sedang disewa.'], 422);
-        }
-
-        // Hitung harga
-        $hourly  = (int) $console['hourly_rate'];
-        $duration = (int) $data['duration'];
-        $grossAmount = $hourly * $duration;
-
-        // Setup MIDTRANS
-        Config::$serverKey    = config('midtrans.serverKey');
-        Config::$clientKey    = config('midtrans.clientKey');
-        Config::$isProduction = config('midtrans.isProduction');
-        Config::$isSanitized  = true;
-        Config::$is3ds        = true;
-
-        // Parameter transaksi
-        $params = [
-            'transaction_details' => [
-                'order_id'     => 'order-' . uniqid(),
-                'gross_amount' => $grossAmount,
-            ],
-            'item_details' => [
-                [
-                    'id'       => (string) $console['id'],
-                    'price'    => $hourly,
-                    'quantity' => $duration,
-                    'name'     => $console['type'] . ' ' . $console['name'],
-                ],
-            ],
-            'customer_details' => [
-                'first_name' => 'User',
-            ],
+        $payload = [
+            'order_id'       => $rental->order_id,
+            'gross_amount'   => $rental->total_price,
+            'console_id'     => $console->id,
+            'hourly_rate'    => $console->hourly_rate,
+            'duration_hours' => $rental->duration_hours,
+            'console_label'  => $console->type . ' ' . $console->name,
+            'customer_name'  => $request->user()?->name,
         ];
 
         try {
-            $snapToken = Snap::getSnapToken($params);
+            $token = $this->paymentGateway->createTransactionToken($payload);
 
             return response()->json([
-                'ok' => true,
-                'token' => $snapToken,
-                'gross_amount' => $grossAmount,
+                'ok'           => true,
+                'token'        => $token,
+                'gross_amount' => $rental->total_price,
+            ]);
+        } catch (\Throwable $e) {
+            \Log::error('MIDTRANS ERROR: ' . $e->getMessage(), [
+                'exception' => $e,
             ]);
 
-     } catch (\Exception $e) {
-
-    \Log::error("MIDTRANS ERROR: " . $e->getMessage());
-
-    return response()->json([
-        'ok' => false,
-        'message' => 'Gagal membuat token.',
-        'error'   => $e->getMessage(),
-    ], 500);
-}
+            return response()->json([
+                'ok'      => false,
+                'message' => 'Gagal membuat token.',
+            ], 500);
+        }
     }
 }

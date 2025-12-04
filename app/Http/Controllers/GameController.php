@@ -2,51 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\Games\StoreGameRequest;
+use App\Http\Requests\Admin\Games\UpdateGameRequest;
 use App\Models\Game;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use App\Services\GameService;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class GameController extends Controller
 {
+    public function __construct(
+        private readonly GameService $gameService
+    ) {}
+
     /**
      * Halaman daftar game publik (PS4 dan PS5)
      */
-    public function index()
+    public function index(): View
     {
         try {
             $all = Game::orderBy('title')->get();
 
-            $map = function ($g) {
+            $map = function (Game $g): array {
                 return [
-                    'title' => $g->title,
-                    'img' => $g->cover
-                        ? asset(str_replace('public/', '', ltrim($g->cover, '/')))
+                    'title'     => $g->title,
+                    'img'       => $g->cover
+                        ? asset(ltrim(str_replace('public/', '', $g->cover), '/'))
                         : asset('images/placeholder-640x360.jpg'),
-                    'genre' => is_array($g->genres) && count($g->genres) ? $g->genres[0] : '-',
-                    'desc' => $g->storyline ?? '-',
+                    'genre'     => is_array($g->genres) && count($g->genres) ? $g->genres[0] : '-',
+                    'desc'      => $g->storyline ?? '-',
                     'developer' => $g->developer ?? '-',
-                    'year' => $g->release_year ?? null,
-                    'age' => $g->age_rating ?? '-',
-                    'slug' => $g->slug,
+                    'year'      => $g->release_year ?? null,
+                    'age'       => $g->age_rating ?? '-',
+                    'slug'      => $g->slug,
                 ];
             };
 
-            $ps4Games = $all->filter(function ($g) {
-                $platforms = is_array($g->platforms) ? $g->platforms : json_decode($g->platforms, true);
-                return is_array($platforms) && in_array('PS4', $platforms);
+            $ps4Games = $all->filter(function (Game $g) {
+                $platforms = is_array($g->platforms) ? $g->platforms : (json_decode($g->platforms ?? '[]', true) ?: []);
+                return in_array('PS4', $platforms, true);
             })->map($map)->values();
 
-            $ps5Games = $all->filter(function ($g) {
-                $platforms = is_array($g->platforms) ? $g->platforms : json_decode($g->platforms, true);
-                return is_array($platforms) && in_array('PS5', $platforms);
+            $ps5Games = $all->filter(function (Game $g) {
+                $platforms = is_array($g->platforms) ? $g->platforms : (json_decode($g->platforms ?? '[]', true) ?: []);
+                return in_array('PS5', $platforms, true);
             })->map($map)->values();
 
             return view('games.index', compact('ps4Games', 'ps5Games'));
         } catch (QueryException $e) {
             return view('errors.missing-tables', [
-                'table' => 'games',
+                'table'     => 'games',
                 'exception' => $e,
             ]);
         }
@@ -55,39 +62,40 @@ class GameController extends Controller
     /**
      * Detail satu game (publik)
      */
-    public function show(string $slug)
+    public function show(Game $game): View
     {
         try {
-            $g = Game::where('slug', $slug)->firstOrFail();
-
-            $game = [
-                'title' => $g->title,
-                'developer' => $g->developer,
-                'publisher' => $g->publisher,
-                'genres' => is_array($g->genres) ? $g->genres : [],
-                'storyline' => $g->storyline,
-                'release_year' => $g->release_year,
-                'age_rating' => $g->age_rating,
-                'platforms' => is_array($g->platforms) ? $g->platforms : [],
-                'modes' => is_array($g->modes) ? $g->modes : [],
-                'size_gb' => $g->size_gb,
-                'languages' => is_array($g->languages) ? $g->languages : [],
-                'rating' => $g->rating,
-                'cover' => $g->cover
-                    ? asset(str_replace('public/', '', ltrim($g->cover, '/')))
+            $gameData = [
+                'title'        => $game->title,
+                'developer'    => $game->developer,
+                'publisher'    => $game->publisher,
+                'genres'       => is_array($game->genres) ? $game->genres : [],
+                'storyline'    => $game->storyline,
+                'release_year' => $game->release_year,
+                'age_rating'   => $game->age_rating,
+                'platforms'    => is_array($game->platforms) ? $game->platforms : [],
+                'modes'        => is_array($game->modes) ? $game->modes : [],
+                'size_gb'      => $game->size_gb,
+                'languages'    => is_array($game->languages) ? $game->languages : [],
+                'rating'       => $game->rating,
+                'cover'        => $game->cover
+                    ? asset(ltrim(str_replace('public/', '', $game->cover), '/'))
                     : asset('images/placeholder-640x360.jpg'),
-                'screenshots' => is_array($g->screenshots)
-        ? array_map(
-            fn ($path) => asset(str_replace('public/', '', ltrim($path, '/'))), 
-            $g->screenshots // <--- INI ADALAH ARGUMEN KEDUA YANG DITAMBAHKAN
-          )
-        : [],
-];
+                'screenshots'  => is_array($game->screenshots)
+                    ? array_map(
+                        fn (string $path) => asset(ltrim(str_replace('public/', '', $path), '/')),
+                        $game->screenshots
+                    )
+                    : [],
+            ];
 
-            return view('games.show', compact('game', 'slug'));
+            return view('games.show', [
+                'game' => $gameData,
+                'slug' => $game->slug,
+            ]);
         } catch (QueryException $e) {
             return view('errors.missing-tables', [
-                'table' => 'games',
+                'table'     => 'games',
                 'exception' => $e,
             ]);
         }
@@ -95,10 +103,10 @@ class GameController extends Controller
 
     // ====================== ADMIN ======================
 
-    public function adminIndex(Request $request)
+    public function adminIndex(Request $request): View
     {
         $search = $request->get('search');
-        $query = Game::query()->orderByDesc('created_at');
+        $query  = Game::query()->orderByDesc('created_at');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -109,130 +117,46 @@ class GameController extends Controller
         }
 
         $games = $query->paginate(12);
+
         return view('admin.games.index', compact('games', 'search'));
     }
 
-    public function create()
+    public function create(): View
     {
         $game = new Game();
+
         return view('admin.games.form', compact('game'));
     }
 
-    public function store(Request $request)
+    public function store(StoreGameRequest $request): RedirectResponse
     {
-        $data = $this->validateGame($request);
+        $this->gameService->create($request->validated());
 
-        // Upload Cover
-        if ($request->hasFile('cover')) {
-            $path = $request->file('cover')->store('covers', 'public');
-            $data['cover'] = '/storage/' . $path;
-        }
-
-        // Upload Screenshots
-        if ($request->hasFile('screenshots')) {
-            $screenshots = [];
-            foreach ($request->file('screenshots') as $file) {
-                $path = $file->store('screenshots', 'public');
-                $screenshots[] = '/storage/' . $path;
-            }
-            $data['screenshots'] = json_encode($screenshots);
-        }
-
-        $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
-        Game::create($data);
-
-        return redirect()->route('admin.games.index')->with('status', 'Game berhasil ditambahkan.');
+        return redirect()
+            ->route('admin.games.index')
+            ->with('status', 'Game berhasil ditambahkan.');
     }
 
-    public function edit(Game $game)
+    public function edit(Game $game): View
     {
         return view('admin.games.form', compact('game'));
     }
 
-    public function update(Request $request, Game $game)
+    public function update(UpdateGameRequest $request, Game $game): RedirectResponse
     {
-        $data = $this->validateGame($request);
+        $this->gameService->update($game, $request->validated());
 
-        if ($request->hasFile('cover')) {
-            if ($game->cover && file_exists(public_path($game->cover))) {
-                @unlink(public_path($game->cover));
-            }
-            $path = $request->file('cover')->store('covers', 'public');
-            $data['cover'] = '/storage/' . $path;
-        }
-
-        if ($request->hasFile('screenshots')) {
-            if ($game->screenshots) {
-                foreach (json_decode($game->screenshots, true) as $path) {
-                    if (file_exists(public_path($path))) {
-                        @unlink(public_path($path));
-                    }
-                }
-            }
-            $screenshots = [];
-            foreach ($request->file('screenshots') as $file) {
-                $path = $file->store('screenshots', 'public');
-                $screenshots[] = '/storage/' . $path;
-            }
-            $data['screenshots'] = json_encode($screenshots);
-        }
-
-        $data['slug'] = $data['slug'] ?: $game->slug;
-        $game->update($data);
-
-        return redirect()->route('admin.games.index')->with('status', 'Game berhasil diperbarui.');
+        return redirect()
+            ->route('admin.games.index')
+            ->with('status', 'Game berhasil diperbarui.');
     }
 
-    public function destroy(Game $game)
+    public function destroy(Game $game): RedirectResponse
     {
-        if ($game->cover && file_exists(public_path($game->cover))) {
-            @unlink(public_path($game->cover));
-        }
+        $this->gameService->delete($game);
 
-        if ($game->screenshots) {
-            foreach (json_decode($game->screenshots, true) as $path) {
-                if (file_exists(public_path($path))) {
-                    @unlink(public_path($path));
-                }
-            }
-        }
-
-        $game->delete();
-        return redirect()->route('admin.games.index')->with('status', 'Game berhasil dihapus.');
-    }
-
-    /**
-     * Validasi form game + ubah input string jadi array json
-     */
-    private function validateGame(Request $request): array
-    {
-        $rules = [
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:games,slug,' . ($request->route('game')?->id ?? ''),
-            'developer' => 'nullable|string|max:255',
-            'publisher' => 'nullable|string|max:255',
-            'genres' => 'nullable|string',
-            'storyline' => 'nullable|string',
-            'release_year' => 'nullable|integer|min:1950|max:' . (date('Y') + 1),
-            'age_rating' => 'nullable|string|max:50',
-            'platforms' => 'nullable|string',
-            'modes' => 'nullable|string',
-            'size_gb' => 'nullable|integer|min:1|max:500',
-            'languages' => 'nullable|string',
-            'rating' => 'nullable|numeric|min:0|max:10',
-            'cover' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'screenshots' => 'nullable|array|max:10',
-            'screenshots.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ];
-
-        $validated = $request->validate($rules);
-
-        foreach (['genres', 'platforms', 'modes', 'languages'] as $field) {
-            if (!empty($validated[$field])) {
-                $validated[$field] = json_encode(array_values(array_filter(array_map('trim', explode(',', $validated[$field])))));
-            }
-        }
-
-        return $validated;
+        return redirect()
+            ->route('admin.games.index')
+            ->with('status', 'Game berhasil dihapus.');
     }
 }
